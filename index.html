@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Владимир Русин — детский писатель</title>
+  <meta name="description" content="Официальный сайт Владимира Русина. Добрые сказки для детей и родителей из сборников «Детство Тонечки» и «Приключения Тонечки»." />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@400;500;700&family=Marck+Script&family=Nunito:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/styles.css" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🌙</text></svg>" />
+</head>
+<body>
+
+  <!-- ============ NAV ============ -->
+  <header class="nav" id="nav">
+    <div class="nav__inner">
+      <a href="#hero" class="nav__logo">🌙 Владимир&nbsp;Русин</a>
+      <button class="nav__burger" id="burger" aria-label="Меню" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+      <nav class="nav__links" id="navLinks">
+        <a href="#hero">Об&nbsp;авторе</a>
+        <a href="#books">Книги</a>
+        <a href="#contact">Контакты</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- ============ HERO ============ -->
+  <section class="hero" id="hero">
+    <span class="blob blob--1"></span>
+    <span class="blob blob--2"></span>
+
+    <div class="hero__inner">
+      <div class="hero__text reveal">
+        <p class="hero__eyebrow">Детский писатель · добрые сказки</p>
+        <h1 class="hero__title">Владимир Русин</h1>
+        <p class="hero__tagline">
+          «Сказки, которые читают перед сном — детям и вместе с детьми»
+        </p>
+        <div class="hero__bio">
+          <p>
+            Рассказы из сборников «<a href="books/detstvo-tonechki.html">Детство Тонечки</a>»
+            и «<a href="books/priklyucheniya-tonechki.html">Приключения Тонечки</a>»
+            предназначены для чтения детьми и их родителями — или для пересказа детям
+            в качестве сказки на ночь.
+          </p>
+          <p><em>[Подробная биография автора будет добавлена позже.]</em></p>
+        </div>
+        <div class="hero__cta">
+          <a href="#books" class="btn btn--primary">Открыть книги</a>
+          <a href="#contact" class="btn btn--ghost">Написать автору</a>
+        </div>
+      </div>
+
+      <div class="hero__portrait reveal">
+        <!-- ✏️ Фото автора будет позже: положите assets/author.jpg и раскомментируйте <img> -->
+        <div class="portrait">
+          <!-- <img src="assets/author.jpg" alt="Владимир Русин" /> -->
+          <span class="portrait__placeholder">📷<br>Фото автора</span>
+        </div>
+        <span class="portrait__badge">✨</span>
+      </div>
+    </div>
+
+    <a href="#books" class="hero__scroll" aria-label="Вниз">⌄</a>
+  </section>
+
+  <!-- ============ BOOKS ============ -->
+  <section class="section books" id="books">
+    <div class="section__head reveal">
+      <span class="section__kicker">~ книги и сценарии ~</span>
+      <h2 class="section__title">Произведения</h2>
+      <p class="section__lead">
+        Нажмите на сборник, чтобы открыть его страницу со всеми сказками.
+      </p>
+    </div>
+
+    <div class="booklist">
+      <!-- Книга 1 -->
+      <a class="book reveal" href="books/detstvo-tonechki.html">
+        <div class="book__cover cover--1">
+          <span class="book__emoji">🌷</span>
+          <span class="book__spine"></span>
+        </div>
+        <div class="book__body">
+          <h3 class="book__title">Детство Тонечки</h3>
+          <p class="book__meta">9 сказок · сборник</p>
+          <p class="book__desc">
+            Самые первые истории про маленькую Тонечку: хомячки, зоопарк,
+            магазин игрушек и другие добрые приключения.
+          </p>
+          <span class="book__link">Открыть книгу →</span>
+        </div>
+      </a>
+
+      <!-- Книга 2 -->
+      <a class="book reveal" href="books/priklyucheniya-tonechki.html">
+        <div class="book__cover cover--2">
+          <span class="book__emoji">🎈</span>
+          <span class="book__spine"></span>
+        </div>
+        <div class="book__body">
+          <h3 class="book__title">Приключения Тонечки</h3>
+          <p class="book__meta">сборник</p>
+          <p class="book__desc">
+            Новые истории о подросшей Тонечке и её друзьях.
+            <em>[Список сказок добавим, как только пришлёте.]</em>
+          </p>
+          <span class="book__link">Открыть книгу →</span>
+        </div>
+      </a>
+
+      <!-- Сценарии -->
+      <a class="book reveal" href="books/scenarii.html">
+        <div class="book__cover cover--4">
+          <span class="book__emoji">🎭</span>
+          <span class="book__spine"></span>
+        </div>
+        <div class="book__body">
+          <h3 class="book__title">Сценарии</h3>
+          <p class="book__meta">сценарии · пьесы</p>
+          <p class="book__desc">
+            Сценарии по мотивам сказок — в том числе «Приключения Буратино.
+            Крысиное счастье».
+          </p>
+          <span class="book__link">Открыть раздел →</span>
+        </div>
+      </a>
+    </div>
+  </section>
+
+  <!-- ============ QUOTE BAND ============ -->
+  <section class="quote reveal">
+    <p class="quote__mark">“</p>
+    <blockquote>
+      Съела девочка Тонечка говорящий рулет. Сидит рулет у неё в животике
+      и говорит: «Тонечка, запей меня водой, или выплюнь, а то я умру,
+      и тебе будет плохо!»
+    </blockquote>
+    <p class="quote__author">— Антон (4 года)</p>
+  </section>
+
+  <!-- ============ CONTACT ============ -->
+  <section class="section contact" id="contact">
+    <div class="contact__card reveal">
+      <h2 class="section__title">Напишите автору</h2>
+      <p class="contact__lead">
+        Отзывы, тёплые слова и предложения о сотрудничестве — всё это очень ценно.
+      </p>
+      <div class="contact__links">
+        <a class="chip chip--buy" href="https://ridero.ru/books/priklyucheniya_tonechki/" target="_blank" rel="noopener">🛒 Купить «Приключения Тонечки»</a>
+        <a class="chip" href="https://proza.ru/avtor/rusin1" target="_blank" rel="noopener">📚 Проза.ру</a>
+        <!-- ✏️ ЗАМЕНИТЕ почту и соцсети на настоящие -->
+        <a class="chip" href="mailto:hello@example.com">✉️ Электронная почта</a>
+        <a class="chip" href="#">💬 Telegram</a>
+        <a class="chip" href="#">▶️ ВКонтакте</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ FOOTER ============ -->
+  <footer class="footer">
+    <p class="footer__logo">🌙 Владимир Русин</p>
+    <p class="footer__copy">© <span id="year"></span> Владимир Русин. Все права защищены.</p>
+    <p class="footer__made">Сделано с ❤️ для маленьких и больших читателей</p>
+  </footer>
+
+  <script src="js/main.js"></script>
+</body>
+</html>
