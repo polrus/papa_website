@@ -8,22 +8,23 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@400;500;700&family=Marck+Script&family=Nunito:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Marck+Script&family=PT+Sans:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="css/styles.css" />
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🌙</text></svg>" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📖</text></svg>" />
 </head>
 <body>
 
   <!-- ============ NAV ============ -->
   <header class="nav" id="nav">
     <div class="nav__inner">
-      <a href="#hero" class="nav__logo">🌙 Владимир&nbsp;Русин</a>
+      <a href="#hero" class="nav__logo">Владимир&nbsp;Русин</a>
       <button class="nav__burger" id="burger" aria-label="Меню" aria-expanded="false">
         <span></span><span></span><span></span>
       </button>
       <nav class="nav__links" id="navLinks">
         <a href="#hero">Об&nbsp;авторе</a>
         <a href="#books">Книги</a>
+        <a href="#scripts">Сценарии</a>
         <a href="#contact">Контакты</a>
       </nav>
     </div>
@@ -31,27 +32,25 @@
 
   <!-- ============ HERO ============ -->
   <section class="hero" id="hero">
-    <span class="blob blob--1"></span>
-    <span class="blob blob--2"></span>
-
     <div class="hero__inner">
       <div class="hero__text reveal">
-        <p class="hero__eyebrow">Детский писатель · добрые сказки</p>
+        <p class="hero__eyebrow">Детский писатель · советский магический реализм</p>
         <h1 class="hero__title">Владимир Русин</h1>
-        <p class="hero__tagline">
-          «Сказки, которые читают перед сном — детям и вместе с детьми»
-        </p>
         <div class="hero__bio">
           <p>
-            Рассказы из сборников «<a href="books/detstvo-tonechki.html">Детство Тонечки</a>»
-            и «<a href="books/priklyucheniya-tonechki.html">Приключения Тонечки</a>»
-            предназначены для чтения детьми и их родителями — или для пересказа детям
-            в качестве сказки на ночь.
+            Вова жил на улице Щорса, в доме номер 3, в квартире 23, на третьем
+            этаже пятиэтажного дома. Днём он учился в школе, гулял во дворе,
+            делал уроки, а вечером, если вовремя ложился спать, мама рассказывала
+            ему сказку.
           </p>
-          <p><em>[Подробная биография автора будет добавлена позже.]</em></p>
+          <p>
+            Вова вырос, и теперь у него свои дети — для них он и написал эти сказки.
+            Дети давно выросли, а сказки не состарились: они так и живут на просторах
+            сети и согревают новых девчонок и мальчишек.
+          </p>
         </div>
         <div class="hero__cta">
-          <a href="#books" class="btn btn--primary">Открыть книги</a>
+          <a href="#books" class="btn btn--primary">Читать сказки</a>
           <a href="#contact" class="btn btn--ghost">Написать автору</a>
         </div>
       </div>
@@ -72,8 +71,7 @@
   <!-- ============ BOOKS ============ -->
   <section class="section books" id="books">
     <div class="section__head reveal">
-      <span class="section__kicker">~ книги и сценарии ~</span>
-      <h2 class="section__title">Произведения</h2>
+      <h2 class="section__title">Книги</h2>
       <p class="section__lead">
         Нажмите на сборник, чтобы открыть его страницу со всеми сказками.
       </p>
@@ -113,8 +111,19 @@
           <span class="book__link">Открыть книгу →</span>
         </div>
       </a>
+    </div>
+  </section>
 
-      <!-- Сценарии -->
+  <!-- ============ SCRIPTS (отдельный раздел) ============ -->
+  <section class="section scripts" id="scripts">
+    <div class="section__head reveal">
+      <h2 class="section__title">Сценарии и пьесы</h2>
+      <p class="section__lead">
+        Сценарии по мотивам сказок — для домашних и школьных постановок.
+      </p>
+    </div>
+
+    <div class="booklist booklist--solo">
       <a class="book reveal" href="books/scenarii.html">
         <div class="book__cover cover--4">
           <span class="book__emoji">🎭</span>
@@ -164,7 +173,7 @@
 
   <!-- ============ FOOTER ============ -->
   <footer class="footer">
-    <p class="footer__logo">🌙 Владимир Русин</p>
+    <p class="footer__logo">Владимир Русин</p>
     <p class="footer__copy">© <span id="year"></span> Владимир Русин. Все права защищены.</p>
     <p class="footer__made">Сделано с ❤️ для маленьких и больших читателей</p>
   </footer>

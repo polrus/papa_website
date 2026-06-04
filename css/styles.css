@@ -1,33 +1,35 @@
 /* ============================================================
    Имя Автора — детский писатель
-   Тема: «Whimsical & colorful» (тёплый персик + небо)
+   Тема: «Советский двор на закате» — ностальгическая палитра:
+   кумачовый красный, золото-охра, выцветшая бирюза, пергамент
    ============================================================ */
 
 :root {
-  /* палитра — жёлтый как главный, чёрный контраст, яркие акценты */
-  --cream:      #FFFDF2;   /* почти белая база */
-  --cream-2:    #FFF1A8;   /* жёлтая плашка */
-  --yellow:     #FFD400;   /* ГЛАВНЫЙ цвет */
-  --yellow-2:   #FFC300;
-  --peach:      #FFE259;   /* светло-жёлтый (бывший peach) */
-  --coral:      #FF1E56;   /* яркий акцент (малиново-красный) */
-  --sky:        #00C2D9;   /* электрический бирюзовый */
-  --sky-soft:   #5BE3F0;
-  --sun:        #FFD400;
-  --mint:       #FFE259;
-  --ink:        #141414;   /* почти чёрный — резкий контраст */
-  --ink-soft:   #555049;
-  --white:      #FFFFFF;
+  /* тёплая приглушённая оранжевая палитра: терракота, глина, медь */
+  --cream:      #F6EEDD;   /* тёплая светлая бумага */
+  --cream-2:    #F1DEBC;   /* медовая плашка */
+  --yellow:     #CF8A4F;   /* ГЛАВНЫЙ цвет — приглушённый оранжевый/глина */
+  --yellow-2:   #AC6731;   /* жжёный оранжевый */
+  --peach:      #E8C49B;   /* мягкий персик */
+  --coral:      #BB5C34;   /* акцент — терракота-ржавчина */
+  --sky:        #8AA1AD;   /* мягкий пыльно-синий (для разнообразия) */
+  --sky-soft:   #C3D0D6;
+  --sun:        #E6B765;   /* мягкое тёплое золото */
+  --terra:      #B57E50;   /* кирпичная тропинка */
+  --mint:       #E8C49B;
+  --ink:        #3B3127;   /* тёплый тёмный уголь (текст) */
+  --ink-soft:   #7A6A54;
+  --white:      #FFFAEF;   /* тёплый «белый» */
 
-  --radius:     14px;      /* плотнее, менее «пузырчато» */
-  --radius-sm:  10px;
-  --shadow:     7px 7px 0 var(--ink);   /* жёсткая тень — резкий стиль */
+  --radius:     6px;       /* строгие, почти прямые углы — конструктивизм */
+  --radius-sm:  4px;
+  --shadow:     7px 7px 0 var(--ink);   /* жёсткая тень — плакатный стиль */
   --shadow-sm:  4px 4px 0 var(--ink);
   --border:     3px solid var(--ink);
 
-  --display: "Comfortaa", system-ui, sans-serif;
+  --display: "Oswald", "PT Sans Narrow", system-ui, sans-serif;
   --script:  "Marck Script", cursive;
-  --body:    "Nunito", system-ui, sans-serif;
+  --body:    "PT Sans", system-ui, sans-serif;
 
   --maxw: 1120px;
 }
@@ -39,13 +41,19 @@ html { scroll-behavior: smooth; }
 body {
   font-family: var(--body);
   color: var(--ink);
-  background: var(--cream);
-  line-height: 1.7;
+  background-color: var(--cream);
+  line-height: 1.5;
   overflow-x: hidden;
+  /* фото двора на закате как фон сайта + тёплая солнечная вуаль
+     и мягкое сияние солнца сверху; фон прокручивается со страницей */
   background-image:
-    radial-gradient(circle at 12% 18%, rgba(0,194,217,.10), transparent 40%),
-    radial-gradient(circle at 88% 8%, rgba(255,212,0,.35), transparent 40%),
-    radial-gradient(circle at 75% 82%, rgba(255,30,86,.08), transparent 44%);
+    radial-gradient(120% 80% at 50% -8%, rgba(224,150,80,.32), rgba(224,150,80,0) 55%),
+    linear-gradient(rgba(246,237,221,.82), rgba(246,237,221,.91)),
+    url("../pictures/Background_2.jpeg");
+  background-size: cover;
+  background-position: center top;
+  background-attachment: scroll;
+  background-repeat: no-repeat;
 }
 
 a { color: inherit; text-decoration: none; }
@@ -76,12 +84,14 @@ a { color: inherit; text-decoration: none; }
   font-family: var(--display);
   font-weight: 700;
   padding: 14px 26px;
-  border-radius: 999px;
+  border-radius: var(--radius-sm);
   border: var(--border);
   box-shadow: var(--shadow-sm);
   transition: transform .12s ease, box-shadow .12s ease;
+  text-transform: uppercase;
+  letter-spacing: .03em;
 }
-.btn--primary { background: var(--ink); color: var(--yellow); }
+.btn--primary { background: var(--ink); color: var(--sun); }
 .btn--ghost   { background: var(--yellow); color: var(--ink); }
 .btn:hover { transform: translate(-2px, -2px); box-shadow: 6px 6px 0 var(--ink); }
 .btn:active { transform: translate(2px, 2px); box-shadow: 1px 1px 0 var(--ink); }
@@ -96,6 +106,7 @@ a { color: inherit; text-decoration: none; }
 @media (prefers-reduced-motion: reduce) {
   .reveal { opacity: 1; transform: none; transition: none; }
   .float { animation: none !important; }
+  .hero::before { animation: none; }
 }
 
 /* ============================================================
@@ -158,6 +169,23 @@ a { color: inherit; text-decoration: none; }
   padding: clamp(40px, 8vw, 90px) 22px clamp(60px, 9vw, 110px);
   overflow: hidden;
 }
+/* тёплое солнце, светящее в углу героя */
+.hero::before {
+  content: "";
+  position: absolute;
+  top: -150px; right: -60px;
+  width: 480px; height: 480px;
+  border-radius: 50%;
+  background: radial-gradient(circle,
+    rgba(238,224,184,.80) 0%,
+    rgba(214,179,108,.45) 30%,
+    rgba(196,160,96,.20) 52%,
+    rgba(196,160,96,0) 72%);
+  filter: blur(6px);
+  z-index: 0;
+  pointer-events: none;
+  animation: sunpulse 7s ease-in-out infinite;
+}
 .hero__inner {
   display: grid;
   grid-template-columns: 1.15fr .85fr;
@@ -176,13 +204,14 @@ a { color: inherit; text-decoration: none; }
   font-family: var(--display);
   font-weight: 700;
   font-size: clamp(2.6rem, 7vw, 4.6rem);
-  line-height: 1.05;
-  margin: 10px 0 14px;
-  background: linear-gradient(100deg, var(--coral), #7A2BFF 70%);
+  line-height: 1.18;
+  padding-bottom: .12em;
+  margin: 6px 0 14px;
+  background: linear-gradient(170deg, #C2773C, #964F22);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
-  -webkit-text-stroke: 1px rgba(20,20,20,.06);
+  -webkit-text-stroke: 1px rgba(20,20,20,.05);
 }
 .hero__tagline {
   font-family: var(--script);
@@ -190,8 +219,8 @@ a { color: inherit; text-decoration: none; }
   color: var(--ink);
   max-width: 30ch;
 }
-.hero__bio { margin-top: 18px; max-width: 46ch; }
-.hero__bio p { margin-bottom: 12px; }
+.hero__bio { margin-top: 16px; max-width: 62ch; }
+.hero__bio p { margin-bottom: 10px; font-size: 1.12rem; line-height: 1.55; }
 .hero__bio em { color: var(--ink-soft); }
 .hero__bio a { color: var(--coral); font-weight: 700; text-decoration: underline; }
 .hero__cta { display: flex; gap: 14px; flex-wrap: wrap; margin: 28px 0 0; }
@@ -206,7 +235,7 @@ a { color: inherit; text-decoration: none; }
   width: clamp(220px, 30vw, 320px);
   aspect-ratio: 4 / 5;
   border-radius: var(--radius);
-  background: linear-gradient(160deg, var(--yellow), var(--coral));
+  background: linear-gradient(160deg, var(--peach), var(--yellow));
   box-shadow: var(--shadow);
   display: grid; place-items: center;
   overflow: hidden;
@@ -331,10 +360,10 @@ a { color: inherit; text-decoration: none; }
 .card__link:hover { text-decoration: underline; }
 
 /* варианты градиентов обложек */
-.cover--1 { background-color: #FFD400; background-image: linear-gradient(160deg, #FFE259, #FFB300); }
-.cover--2 { background-color: #00C2D9; background-image: linear-gradient(160deg, #5BE3F0, #006E8A); }
+.cover--1 { background-color: #CF8A4F; background-image: linear-gradient(160deg, #DDA164, #A4602C); }
+.cover--2 { background-color: #C79A4A; background-image: linear-gradient(160deg, #E3C079, #B0813A); }
 .cover--3 { background-color: #FFB996; background-image: linear-gradient(160deg, #FFE0B2, #E08D5A); }
-.cover--4 { background-color: #E0568f; background-image: linear-gradient(160deg, #FFB4D2, #E0568f); }
+.cover--4 { background-color: #BB5C34; background-image: linear-gradient(160deg, #CB7A4E, #8F4324); }
 .cover--5 { background-color: #B8E0C9; background-image: linear-gradient(160deg, #DDF3E4, #5AA17F); }
 .cover--6 { background-color: #A2D2FF; background-image: linear-gradient(160deg, #C9E4FF, #4E89D9); }
 .cover--7 { background-color: #FF8A65; background-image: linear-gradient(160deg, #FFD089, #E04B2E); }
@@ -351,6 +380,7 @@ a { color: inherit; text-decoration: none; }
   max-width: 880px;
   margin: 0 auto;
 }
+.booklist--solo { grid-template-columns: minmax(0, 1fr); max-width: 560px; }
 .book {
   display: grid;
   grid-template-columns: 150px 1fr;
@@ -503,7 +533,7 @@ a { color: inherit; text-decoration: none; }
 .chip {
   background: var(--white);
   padding: 12px 22px;
-  border-radius: 999px;
+  border-radius: var(--radius-sm);
   font-weight: 700;
   border: var(--border);
   box-shadow: var(--shadow-sm);
@@ -533,6 +563,7 @@ a { color: inherit; text-decoration: none; }
 @keyframes drift  { 0% { transform: translateX(-10px) } 50% { transform: translateX(20px) } 100% { transform: translateX(-10px) } }
 @keyframes spin   { to { transform: rotate(360deg) } }
 @keyframes bounce { 0%,100% { transform: translateX(-50%) translateY(0) } 50% { transform: translateX(-50%) translateY(8px) } }
+@keyframes sunpulse { 0%,100% { transform: scale(1); opacity: .85 } 50% { transform: scale(1.07); opacity: 1 } }
 
 /* ============================================================
    RESPONSIVE
