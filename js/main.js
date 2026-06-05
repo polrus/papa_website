@@ -53,6 +53,30 @@
     reveals.forEach(function (el) { el.classList.add("is-in"); });
   }
 
+  /* --- видео-обложки: статичны, оживают при наведении --- */
+  var coverVideos = document.querySelectorAll(".cover-video");
+  coverVideos.forEach(function (video) {
+    // зона наведения — карточка книги или сама обложка
+    var hot = video.closest(".book") ||
+              video.closest(".bookhero__cover") ||
+              video.parentElement;
+    if (!hot) return;
+
+    function play() {
+      var p = video.play();
+      if (p && typeof p.catch === "function") p.catch(function () {});
+    }
+    function stop() {
+      video.pause();
+      video.currentTime = 0;
+    }
+
+    hot.addEventListener("mouseenter", play);
+    hot.addEventListener("mouseleave", stop);
+    // на сенсорных экранах нет наведения — короткий показ по касанию
+    hot.addEventListener("touchstart", play, { passive: true });
+  });
+
   /* --- подсветка активного пункта меню --- */
   var sections = document.querySelectorAll("section[id]");
   var navAnchors = navLinks ? navLinks.querySelectorAll("a") : [];

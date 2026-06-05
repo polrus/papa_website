@@ -34,8 +34,8 @@
     <span class="blob blob--2"></span>
 
     <div class="bookhero__inner">
-      <div class="bookhero__cover cover--2 reveal">
-        <!-- ✏️ Обложка: добавьте style="background-image:url('../assets/covers/priklyucheniya.jpg')" -->
+      <div class="bookhero__cover cover--2 reveal has-video">
+        <video class="cover-video" src="../pictures/cover-priklyucheniya.mp4" poster="../pictures/cover-priklyucheniya.jpg" muted loop playsinline preload="metadata"></video>
         <span class="book__emoji">🎈</span>
       </div>
       <div class="bookhero__text reveal">
@@ -59,15 +59,64 @@
     <div class="section__head reveal">
       <span class="section__kicker">~ сказки сборника ~</span>
       <h2 class="section__title">Сказки книги</h2>
-      <p class="section__lead">Список сказок этого сборника добавим, как только вы его пришлёте.</p>
+      <p class="section__lead">Нажмите на сказку, чтобы прочитать её целиком.</p>
     </div>
 
-    <!-- ✏️ Когда пришлёте названия — скопируйте карточку <article class="card"> со
-         страницы «Детство Тонечки» сюда внутрь .grid и замените заголовки. -->
-    <div class="empty">
-      <span class="empty__emoji">📖✨</span>
-      <p>Здесь скоро появятся сказки из сборника «Приключения Тонечки».</p>
-      <a class="btn btn--primary" href="https://ridero.ru/books/priklyucheniya_tonechki/" target="_blank" rel="noopener">🛒 Купить книгу на Ridero</a>
+    <div class="grid">
+      <article class="card reveal">
+        <a class="card__cover cover--1" href="story/tonechka-i-novyy-god.html">
+          <span class="card__emoji">🎄</span>
+        </a>
+        <div class="card__body">
+          <h3 class="card__title">Тонечка и Новый Год</h3>
+          <p class="card__meta">сказка · 12.07.2014</p>
+          <a class="card__link" href="story/tonechka-i-novyy-god.html">Читать →</a>
+        </div>
+      </article>
+
+      <article class="card reveal">
+        <a class="card__cover cover--2" href="story/verhnie-kulichiki.html">
+          <span class="card__emoji">🏡</span>
+        </a>
+        <div class="card__body">
+          <h3 class="card__title">Верхние Куличики</h3>
+          <p class="card__meta">сказка · 13.07.2014</p>
+          <a class="card__link" href="story/verhnie-kulichiki.html">Читать →</a>
+        </div>
+      </article>
+
+      <article class="card reveal">
+        <a class="card__cover cover--3" href="story/kosmicheskie-praviteli.html">
+          <span class="card__emoji">🚀</span>
+        </a>
+        <div class="card__body">
+          <h3 class="card__title">Тонечка и Космические правители</h3>
+          <p class="card__meta">сказка · 13.07.2014</p>
+          <a class="card__link" href="story/kosmicheskie-praviteli.html">Читать →</a>
+        </div>
+      </article>
+
+      <article class="card reveal">
+        <a class="card__cover cover--5" href="story/loshadinaya-noga.html">
+          <span class="card__emoji">🐴</span>
+        </a>
+        <div class="card__body">
+          <h3 class="card__title">Лошадиная нога</h3>
+          <p class="card__meta">сказка · 19.07.2014</p>
+          <a class="card__link" href="story/loshadinaya-noga.html">Читать →</a>
+        </div>
+      </article>
+
+      <article class="card reveal">
+        <a class="card__cover cover--6" href="story/povelitel-blam-blanov.html">
+          <span class="card__emoji">👾</span>
+        </a>
+        <div class="card__body">
+          <h3 class="card__title">Тонечка и Повелитель Блам-Бланов</h3>
+          <p class="card__meta">сказка · 05.12.2014</p>
+          <a class="card__link" href="story/povelitel-blam-blanov.html">Читать →</a>
+        </div>
+      </article>
     </div>
   </section>
 
