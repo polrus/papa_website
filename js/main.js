@@ -58,6 +58,7 @@
   coverVideos.forEach(function (video) {
     // зона наведения — карточка книги или сама обложка
     var hot = video.closest(".book") ||
+              video.closest(".card") ||
               video.closest(".bookhero__cover") ||
               video.parentElement;
     if (!hot) return;
@@ -75,6 +76,17 @@
     hot.addEventListener("mouseleave", stop);
     // на сенсорных экранах нет наведения — короткий показ по касанию
     hot.addEventListener("touchstart", play, { passive: true });
+  });
+
+  /* --- почта автора: собираем адрес в рантайме, чтобы он не светился
+         в разметке/во всплывающей подсказке у кнопки «Написать автору» --- */
+  var mailEls = document.querySelectorAll("[data-mail]");
+  mailEls.forEach(function (el) {
+    el.addEventListener("click", function (e) {
+      e.preventDefault();
+      var user = "vrusin1", domain = "rambler.ru";
+      window.location.href = "mailto:" + user + "@" + domain;
+    });
   });
 
   /* --- подсветка активного пункта меню --- */

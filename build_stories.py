@@ -133,7 +133,7 @@ READER_TMPL = """<!DOCTYPE html>
   <!-- ============ NAV ============ -->
   <header class="nav" id="nav">
     <div class="nav__inner">
-      <a href="../../index.html#hero" class="nav__logo">🌙 Владимир&nbsp;Русин</a>
+      <a href="../../index.html#hero" class="nav__logo">Владимир&nbsp;Русин</a>
       <button class="nav__burger" id="burger" aria-label="Меню" aria-expanded="false">
         <span></span><span></span><span></span>
       </button>
@@ -146,8 +146,8 @@ READER_TMPL = """<!DOCTYPE html>
   </header>
 
   <!-- ============ STORY ============ -->
-  <article class="story">
-    <div class="story__head reveal">
+  <article class="story{story_extra}">
+{banner}    <div class="story__head reveal">
       <a class="back-link" href="../{book_page}">← {book}</a>
       <span class="story__emoji cover--{cover}">{emoji}</span>
       <span class="section__kicker">~ {kind} ~</span>
@@ -155,10 +155,10 @@ READER_TMPL = """<!DOCTYPE html>
       <p class="story__meta">{kind} · {date}</p>
     </div>
 
-    <div class="prose reveal">
+    <div class="prose{prose_extra}">
 {body}
     </div>
-
+{video_figure}
     <div class="story__foot reveal">
       <a class="btn btn--ghost" href="../{book_page}">← Все {kind_plural}</a>
       <a class="btn btn--ghost" href="{url}" target="_blank" rel="noopener">Оригинал на Проза.ру ↗</a>
@@ -167,7 +167,7 @@ READER_TMPL = """<!DOCTYPE html>
 
   <!-- ============ FOOTER ============ -->
   <footer class="footer">
-    <p class="footer__logo">🌙 Владимир Русин</p>
+    <p class="footer__logo">Владимир Русин</p>
     <p class="footer__copy">© <span id="year"></span> Владимир Русин. Все права защищены.</p>
     <p class="footer__made">Сделано с ❤️ для маленьких и больших читателей</p>
   </footer>
@@ -178,15 +178,112 @@ READER_TMPL = """<!DOCTYPE html>
 """
 
 
+def has_video(slug):
+    """A cover video exists for the story card / book covers."""
+    return os.path.exists(os.path.join(ROOT, "pictures", f"story-{slug}.mp4"))
+
+
+def text_video(slug):
+    """Filename stem for the in-text illustration.
+
+    Prefers a dedicated `text-<slug>` clip (some stories have a separate
+    cover vs. in-text version); otherwise falls back to the cover clip.
+    Returns the stem (e.g. "text-strashnaya-skazka") or None.
+    """
+    pics = os.path.join(ROOT, "pictures")
+    if os.path.exists(os.path.join(pics, f"text-{slug}.mp4")):
+        return f"text-{slug}"
+    if os.path.exists(os.path.join(pics, f"story-{slug}.mp4")):
+        return f"story-{slug}"
+    return None
+
+
+VIDEO_FIGURE_TMPL = """
+    <figure class="story-figure reveal">
+      <video class="story-figure__video" src="../../pictures/{stem}.mp4" poster="../../pictures/{stem}.jpg" autoplay loop muted playsinline preload="metadata"></video>
+      <figcaption class="story-figure__cap">{title}</figcaption>
+    </figure>
+"""
+
+
+# Stories whose body is a play script kept verbatim in a side file
+# (preserves line breaks, scene headings, songs).
+SCRIPT_FILES = {
+    "priklyucheniya-buratino": os.path.join(ROOT, "books", "buratino-script.txt"),
+}
+SCENE_RE = re.compile(
+    r"^(Предисловие|Использованная литература:|Действующие лица.*:|"
+    r"[А-Яа-я]+\s+картина\..*|Счастливый конец\.?)$"
+)
+
+
+def render_script_body(raw):
+    """Render a play script: blank-line blocks → <p> (lines joined with <br>),
+    scene/section markers → <h2>."""
+    lines = raw.split("\n")
+    # drop a leading title + "Владимир Русин" byline if present
+    while lines and lines[0].strip() == "":
+        lines.pop(0)
+    if lines and lines[0].strip():
+        lines.pop(0)  # title line
+    if lines and lines[0].strip() == "Владимир Русин":
+        lines.pop(0)
+    blocks, buf = [], []
+    for ln in lines:
+        if ln.strip() == "":
+            if buf:
+                blocks.append(buf)
+                buf = []
+        else:
+            buf.append(ln.rstrip())
+    if buf:
+        blocks.append(buf)
+    out = []
+    for block in blocks:
+        if len(block) == 1 and SCENE_RE.match(block[0].strip()):
+            out.append(f'      <h2 class="scene-title">{html.escape(block[0].strip())}</h2>')
+        else:
+            inner = "<br>\n      ".join(html.escape(l) for l in block)
+            out.append(f"      <p>{inner}</p>")
+    return "\n".join(out)
+
+
 def render_reader(story, meta):
     slug, emoji, cover = meta
     book_section = story["section"]
     book = SECTION_TITLE[book_section]
     kind = KIND[book_section]
     kind_plural = "сценарии" if kind == "сценарий" else "сказки"
-    body = "\n".join(
-        f"      <p>{html.escape(p)}</p>" for p in story["paras"]
-    )
+    prose_extra = ""
+    if slug in SCRIPT_FILES and os.path.exists(SCRIPT_FILES[slug]):
+        with open(SCRIPT_FILES[slug], encoding="utf-8") as f:
+            body = render_script_body(f.read())
+        prose_extra = " prose--script"
+    else:
+        lines = []
+        for i, p in enumerate(story["paras"]):
+            s = p.strip()
+            # a leading parenthetical note (e.g. co-authorship) — italic, muted,
+            # and no drop-cap; the drop-cap moves to the next paragraph.
+            if i == 0 and s.startswith("(") and s.endswith(")"):
+                lines.append(f'      <p class="story-note">{html.escape(p)}</p>')
+            else:
+                lines.append(f"      <p>{html.escape(p)}</p>")
+        body = "\n".join(lines)
+    video_figure = ""
+    stem = text_video(slug)
+    if stem:
+        video_figure = VIDEO_FIGURE_TMPL.format(
+            stem=stem, title=html.escape(story["title"]),
+        )
+    # optional wide banner image at the top of the story (pictures/banner-<slug>.jpg)
+    banner = ""
+    story_extra = ""
+    if os.path.exists(os.path.join(ROOT, "pictures", f"banner-{slug}.jpg")):
+        banner = (f'    <img class="story-banner reveal" '
+                  f'src="../../pictures/banner-{slug}.jpg" '
+                  f'alt="{html.escape(story["title"])}" />\n')
+        story_extra = " story--banner"
     return READER_TMPL.format(
         title=html.escape(story["title"]),
         kind=kind,
@@ -197,13 +294,17 @@ def render_reader(story, meta):
         cover=cover,
         date=story["date"],
         body=body,
+        banner=banner,
+        story_extra=story_extra,
+        prose_extra=prose_extra,
+        video_figure=video_figure,
         url=story["url"],
     )
 
 
 CARD_TMPL = """      <article class="card reveal">
-        <a class="card__cover cover--{cover}" href="story/{slug}.html">
-          <span class="card__emoji">{emoji}</span>
+        <a class="card__cover cover--{cover}{has_video_cls}" href="story/{slug}.html">
+{cover_inner}
         </a>
         <div class="card__body">
           <h3 class="card__title">{title}</h3>
@@ -212,15 +313,26 @@ CARD_TMPL = """      <article class="card reveal">
         </div>
       </article>"""
 
+CARD_VIDEO = ('          <video class="cover-video" src="../pictures/story-{slug}.mp4" '
+              'poster="../pictures/story-{slug}.jpg" muted loop playsinline preload="metadata"></video>\n'
+              '          <span class="card__emoji">{emoji}</span>')
+
 
 def build_cards(stories, metas):
     out = []
     for story, meta in zip(stories, metas):
         slug, emoji, cover = meta
+        if has_video(slug):
+            cover_inner = CARD_VIDEO.format(slug=slug, emoji=emoji)
+            has_video_cls = " has-video"
+        else:
+            cover_inner = f'          <span class="card__emoji">{emoji}</span>'
+            has_video_cls = ""
         out.append(CARD_TMPL.format(
             cover=cover,
+            has_video_cls=has_video_cls,
+            cover_inner=cover_inner,
             slug=slug,
-            emoji=emoji,
             title=html.escape(story["title"]),
             kind=KIND[story["section"]],
             date=story["date"],
@@ -275,6 +387,17 @@ def main():
     groups = {}
     for story, meta in zip(stories, META):
         groups.setdefault(story["section"], []).append((story, meta))
+
+    # manual card-order tweaks: swap the on-page position of two stories
+    # (each pair is (slug_a, slug_b); reader pages are unaffected).
+    CARD_SWAPS = [("govoryashchiy-rulet", "strashnaya-skazka")]
+    for items in groups.values():
+        slugs = [m[0] for (_s, m) in items]
+        for a, b in CARD_SWAPS:
+            if a in slugs and b in slugs:
+                ia, ib = slugs.index(a), slugs.index(b)
+                items[ia], items[ib] = items[ib], items[ia]
+                slugs[ia], slugs[ib] = slugs[ib], slugs[ia]
 
     for section, page in SECTION_PAGE.items():
         items = groups.get(section, [])

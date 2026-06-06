@@ -6,16 +6,16 @@
 
 :root {
   /* тёплая приглушённая оранжевая палитра: терракота, глина, медь */
-  --cream:      #F6EEDD;   /* тёплая светлая бумага */
-  --cream-2:    #F1DEBC;   /* медовая плашка */
-  --yellow:     #CF8A4F;   /* ГЛАВНЫЙ цвет — приглушённый оранжевый/глина */
-  --yellow-2:   #AC6731;   /* жжёный оранжевый */
-  --peach:      #E8C49B;   /* мягкий персик */
-  --coral:      #BB5C34;   /* акцент — терракота-ржавчина */
+  --cream:      #FBF4E6;   /* светлая тёплая бумага */
+  --cream-2:    #F8E6C4;   /* медовая плашка */
+  --yellow:     #F0974A;   /* ГЛАВНЫЙ цвет — яркий тёплый оранжевый */
+  --yellow-2:   #D2742C;   /* жжёный оранжевый */
+  --peach:      #F4CF9E;   /* мягкий персик */
+  --coral:      #E26836;   /* акцент — яркая терракота */
   --sky:        #8AA1AD;   /* мягкий пыльно-синий (для разнообразия) */
   --sky-soft:   #C3D0D6;
-  --sun:        #E6B765;   /* мягкое тёплое золото */
-  --terra:      #B57E50;   /* кирпичная тропинка */
+  --sun:        #F5C06A;   /* тёплое золото */
+  --terra:      #C9854F;   /* кирпичная тропинка */
   --mint:       #E8C49B;
   --ink:        #3B3127;   /* тёплый тёмный уголь (текст) */
   --ink-soft:   #7A6A54;
@@ -44,15 +44,10 @@ body {
   background-color: var(--cream);
   line-height: 1.5;
   overflow-x: hidden;
-  /* фото двора на закате как фон сайта + тёплая солнечная вуаль
-     и мягкое сияние солнца сверху; фон прокручивается со страницей */
+  /* простой светлый фон с мягким тёплым сиянием сверху (без фото) */
   background-image:
-    radial-gradient(120% 80% at 50% -8%, rgba(224,150,80,.32), rgba(224,150,80,0) 55%),
-    linear-gradient(rgba(246,237,221,.82), rgba(246,237,221,.91)),
-    url("../pictures/Background_2.jpeg");
-  background-size: cover;
-  background-position: center top;
-  background-attachment: scroll;
+    radial-gradient(120% 70% at 50% -8%, rgba(240,151,74,.18), rgba(240,151,74,0) 60%);
+  background-attachment: fixed;
   background-repeat: no-repeat;
 }
 
@@ -169,23 +164,6 @@ a { color: inherit; text-decoration: none; }
   padding: clamp(40px, 8vw, 90px) 22px clamp(60px, 9vw, 110px);
   overflow: hidden;
 }
-/* тёплое солнце, светящее в углу героя */
-.hero::before {
-  content: "";
-  position: absolute;
-  top: -150px; right: -60px;
-  width: 480px; height: 480px;
-  border-radius: 50%;
-  background: radial-gradient(circle,
-    rgba(238,224,184,.80) 0%,
-    rgba(214,179,108,.45) 30%,
-    rgba(196,160,96,.20) 52%,
-    rgba(196,160,96,0) 72%);
-  filter: blur(6px);
-  z-index: 0;
-  pointer-events: none;
-  animation: sunpulse 7s ease-in-out infinite;
-}
 .hero__inner {
   display: grid;
   grid-template-columns: 1.15fr .85fr;
@@ -231,31 +209,40 @@ a { color: inherit; text-decoration: none; }
 
 /* портрет */
 .hero__portrait { position: relative; justify-self: center; }
-.portrait {
-  width: clamp(220px, 30vw, 320px);
+/* коллаж из трёх фото автора: все видны, наведённое выходит наверх */
+.photo-stack {
+  position: relative;
+  width: clamp(290px, 38vw, 390px);
+  aspect-ratio: 1 / 1;
+  margin: 0 auto;
+}
+.photo {
+  position: absolute;
+  width: 55%;
   aspect-ratio: 4 / 5;
-  border-radius: var(--radius);
-  background: linear-gradient(160deg, var(--peach), var(--yellow));
-  box-shadow: var(--shadow);
-  display: grid; place-items: center;
+  margin: 0;
   overflow: hidden;
-  border: var(--border);
-  rotate: -2deg;
+  background: var(--cream-2);
+  border: 6px solid var(--white);
+  border-radius: 6px;
+  box-shadow: var(--shadow-sm);
+  transition: transform .2s ease, box-shadow .2s ease;
 }
-.portrait img { width: 100%; height: 100%; object-fit: cover; }
-.portrait__placeholder {
-  text-align: center;
-  font-family: var(--display);
-  font-weight: 700;
-  color: rgba(20,20,20,.7);
-  font-size: 1.5rem;
-  line-height: 1.5;
+.photo img { width: 100%; height: 100%; object-fit: cover; display: block; }
+/* две сверху, одна снизу по центру — углы каждой остаются видимыми */
+.photo--2 { top: 0; left: 2%;  transform: rotate(-8deg); z-index: 1; }
+.photo--3 { top: 4%; right: 2%; transform: rotate(8deg);  z-index: 2; }
+.photo--1 {
+  bottom: 0; left: 50%;
+  transform: translateX(-50%) rotate(-3deg);
+  z-index: 3;
+  box-shadow: var(--shadow);
 }
-.portrait__badge {
-  position: absolute; top: -8px; right: 8px;
-  font-size: 2rem;
-  animation: spin 8s linear infinite;
-}
+/* наведение: фото выпрямляется, увеличивается и выходит на передний план */
+.photo:hover { z-index: 20; box-shadow: var(--shadow); }
+.photo--1:hover { transform: translateX(-50%) rotate(0deg) scale(1.06); }
+.photo--2:hover { transform: rotate(0deg) scale(1.06); }
+.photo--3:hover { transform: rotate(0deg) scale(1.06); }
 
 .hero__scroll {
   position: absolute; left: 50%; bottom: 14px;
@@ -272,10 +259,6 @@ a { color: inherit; text-decoration: none; }
 .float--cloud1 { top: 12%; left: 30%;  font-size: 2rem;   animation: drift 14s linear infinite; }
 .float--cloud2 { bottom: 18%; left: 8%; font-size: 1.6rem; animation: drift 18s linear infinite; }
 .float--book   { bottom: 8%; right: 4%; font-size: 2rem;  animation: floaty 6.5s ease-in-out infinite; }
-
-.blob { position: absolute; z-index: 0; border-radius: 50%; filter: blur(4px); opacity: .85; }
-.blob--1 { width: 220px; height: 220px; background: var(--sky); top: -40px; right: -60px; }
-.blob--2 { width: 200px; height: 200px; background: var(--yellow); bottom: -40px; left: -50px; }
 
 .hero__inner, .hero__text, .hero__portrait { position: relative; z-index: 1; }
 
@@ -466,7 +449,7 @@ a { color: inherit; text-decoration: none; }
 .empty p { color: var(--ink); font-weight: 700; }
 
 /* кнопка-чип «Купить» */
-.chip--buy { background: var(--coral); color: var(--white); }
+.chip--buy { background: var(--ink); color: var(--sun); }
 .chip--buy:hover { background: var(--coral); color: var(--white); }
 
 /* ============================================================
@@ -495,6 +478,17 @@ a { color: inherit; text-decoration: none; }
   box-shadow: var(--shadow-sm);
   margin-bottom: 10px;
 }
+/* широкий баннер вверху страницы сказки */
+.story-banner {
+  display: block;
+  width: 100%;
+  height: auto;
+  border: var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  margin-bottom: clamp(20px, 4vw, 36px);
+}
+.story--banner .story__emoji { display: none; }
 .story__title {
   font-family: var(--display);
   font-weight: 700;
@@ -519,7 +513,8 @@ a { color: inherit; text-decoration: none; }
   hyphens: auto;
 }
 .prose p:last-child { margin-bottom: 0; }
-.prose p:first-child::first-letter {
+.prose p:first-child::first-letter,
+.prose p.story-note + p::first-letter {
   font-family: var(--display);
   font-weight: 700;
   float: left;
@@ -528,6 +523,33 @@ a { color: inherit; text-decoration: none; }
   padding: 6px 12px 0 0;
   color: var(--coral);
 }
+/* вводная пометка в скобках (например, соавторство) — курсив, без буквицы */
+.prose p.story-note {
+  font-style: italic;
+  color: var(--ink-soft);
+  font-size: .95rem;
+  margin-bottom: .6em;
+}
+.prose p.story-note::first-letter {
+  font: inherit; float: none; padding: 0; color: inherit; line-height: inherit;
+}
+
+/* сценарий / пьеса — без буквицы, с заголовками картин */
+.prose--script p:first-child::first-letter {
+  font-family: inherit; font-weight: inherit; float: none;
+  font-size: inherit; line-height: inherit; padding: 0; color: inherit;
+}
+.prose--script p { font-size: 1.04rem; line-height: 1.65; }
+.scene-title {
+  font-family: var(--display);
+  font-weight: 700;
+  font-size: 1.4rem;
+  color: var(--coral);
+  margin: 1.8em 0 .8em;
+  padding-top: 1.2em;
+  border-top: 2px solid var(--cream-2);
+}
+.scene-title:first-child { margin-top: 0; padding-top: 0; border-top: 0; }
 
 .story__foot {
   display: flex; flex-wrap: wrap; gap: 14px;
@@ -551,11 +573,39 @@ a { color: inherit; text-decoration: none; }
 .bookhero__cover { position: relative; overflow: hidden; }
 /* когда есть видео — прячем эмодзи-заглушку и поднимаем подпись над ним */
 .has-video .book__emoji,
+.has-video .card__emoji,
 .has-video.bookhero__cover .book__emoji { display: none; }
 .has-video .book__spine { z-index: 1; }
-/* при наведении на книгу/обложку видео чуть приближается */
+/* при наведении на книгу/обложку/карточку видео чуть приближается */
 .book:hover .cover-video,
+.card:hover .cover-video,
 .bookhero__cover:hover .cover-video { transform: scale(1.04); }
+
+/* анимированная иллюстрация в конце сказки («в рамке») */
+.story-figure {
+  margin: clamp(28px, 5vw, 44px) 0 0;
+  display: grid;
+  justify-items: center;
+  gap: 12px;
+}
+.story-figure__video {
+  display: block;
+  width: auto;
+  height: auto;
+  max-width: 100%;
+  max-height: 70vh;
+  border: var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  background: var(--cream-2);
+}
+.story-figure__cap {
+  font-family: var(--script);
+  color: var(--coral);
+  font-size: 1.5rem;
+  line-height: 1.2;
+  text-align: center;
+}
 
 /* ============================================================
    QUOTE BAND

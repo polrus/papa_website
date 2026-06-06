@@ -1,2 +1,12 @@
 .claude/
 .DS_Store
+
+# Raw source media — the site serves the generated web versions
+# (cover-*/story-*/text-*/banner-*). Keep originals out of git history.
+pictures/*.HEIC
+pictures/vidu-video-*.mp4
+pictures/*.mp4
+!pictures/cover-*.mp4
+!pictures/story-*.mp4
+!pictures/text-*.mp4
+pictures/*.png
