@@ -836,68 +836,29 @@ body.theme-dark .hero::after {
 }
 
 /* ============================================================
-   AUTHOR SWITCHER BUTTON (floating, bottom-right)
+   AUTHOR SWITCHER — оформлен как переключатель тёмной темы,
+   закреплён в правом верхнем углу; ведёт к другому автору.
    ============================================================ */
 .switcher-btn {
-  position: fixed;
-  bottom: 26px;
-  right: 26px;
-  z-index: 300;
-  display: flex;
-  align-items: center;
-  gap: 9px;
-  padding: 12px 20px 12px 16px;
+  display: inline-grid;
+  place-items: center;
+  width: 38px;
+  height: 38px;
+  padding: 0;
   background: var(--ink);
   color: var(--cream);
-  border: 2px solid rgba(255,255,255,.12);
-  border-radius: 50px;
-  font-family: var(--display);
-  font-weight: 700;
-  font-size: .82rem;
-  letter-spacing: .04em;
+  border: 1px solid rgba(0,0,0,.2);
+  border-radius: 50%;
   cursor: pointer;
-  box-shadow: 0 4px 22px rgba(0,0,0,.22), var(--shadow-sm);
-  transition: transform .22s ease, box-shadow .22s ease, background .22s ease, color .22s ease;
-  white-space: nowrap;
-  text-transform: uppercase;
+  box-shadow: 0 2px 6px rgba(0,0,0,.22);
+  transition: background .18s ease, transform .15s ease, box-shadow .18s ease;
 }
-.switcher-btn:hover {
-  transform: translateY(-4px) scale(1.04);
-  box-shadow: 0 10px 30px rgba(0,0,0,.3), var(--shadow);
-}
-.switcher-btn:active {
-  transform: translateY(-1px) scale(1.01);
-}
-.switcher-btn__icon {
-  font-size: 1.1rem;
-  line-height: 1;
-  transition: transform .3s ease;
-}
-.switcher-btn:hover .switcher-btn__icon {
-  transform: rotate(15deg) scale(1.15);
-}
-.switcher-btn__text {
-  line-height: 1;
-}
-.switcher-btn__arrow {
-  font-size: .75rem;
-  opacity: .7;
-  transition: transform .22s ease;
-}
-.switcher-btn:hover .switcher-btn__arrow {
-  transform: translateX(3px);
-  opacity: 1;
-}
-
-body.theme-dark .switcher-btn {
-  background: #C9A028;
-  color: #0C1018;
-  border-color: rgba(0,0,0,.15);
-  box-shadow: 0 4px 22px rgba(201,160,40,.28), 4px 4px 0 rgba(201,160,40,.28);
-}
-body.theme-dark .switcher-btn:hover {
-  box-shadow: 0 10px 30px rgba(201,160,40,.35), 6px 6px 0 rgba(201,160,40,.35);
-}
+.switcher-btn:hover { background: #2c2419; transform: translateY(-1px); box-shadow: 0 4px 12px rgba(0,0,0,.28); }
+.switcher-btn:active { transform: translateY(0); box-shadow: 0 2px 6px rgba(0,0,0,.22); }
+.switcher-btn__icon { display: grid; place-items: center; line-height: 0; }
+/* на тёмной странице Боромы — наоборот, светлая кнопка с солнцем */
+body.theme-dark .switcher-btn { background: var(--cream); color: #B8862A; border-color: rgba(0,0,0,.15); }
+body.theme-dark .switcher-btn:hover { background: var(--white); }
 
 /* Полное отключение анимаций reveal при переключении через портал */
 body.skip-reveal .reveal {

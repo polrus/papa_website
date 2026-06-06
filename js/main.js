@@ -146,18 +146,23 @@ var skipAnims = fromPortal || inPortalFrame;
   var depth   = inBooks ? "../" : "./";
 
   var destUrl  = author === "rusin" ? depth + "boroma.html" : depth + "index.html";
-  var destIcon = author === "rusin" ? "🌙" : "☀️";
   var destName = author === "rusin" ? "Денис&nbsp;Борома" : "Владимир&nbsp;Русин";
 
-  /* ---- inject switcher button ---- */
+  /* proper line-icons (inherit color via currentColor) */
+  var moonIcon = '<svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.8A9 9 0 1 1 11.2 3 7 7 0 0 0 21 12.8z"/></svg>';
+  var sunIcon  = '<svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4.2"/><path d="M12 1.8v2.4M12 19.8v2.4M4.2 4.2l1.7 1.7M18.1 18.1l1.7 1.7M1.8 12h2.4M19.8 12h2.4M4.2 19.8l1.7-1.7M18.1 5.9l1.7-1.7"/></svg>';
+  var destIcon = author === "rusin" ? moonIcon : sunIcon;
+
+  /* ---- inject switcher button into the nav bar ---- */
   var btn = document.createElement("button");
   btn.className = "switcher-btn";
-  btn.setAttribute("aria-label", "Перейти к другому автору");
-  btn.innerHTML =
-    '<span class="switcher-btn__icon">' + destIcon + '</span>' +
-    '<span class="switcher-btn__text">' + destName + '</span>' +
-    '<span class="switcher-btn__arrow">→</span>';
-  document.body.appendChild(btn);
+  var destPlain = destName.replace(/&nbsp;/g, " ");
+  btn.setAttribute("aria-label", "Перейти к автору: " + destPlain);
+  btn.innerHTML = '<span class="switcher-btn__icon">' + destIcon + '</span>';
+  var navTarget = document.querySelector(".nav__links") ||
+                  document.querySelector(".nav__inner") ||
+                  document.body;
+  navTarget.appendChild(btn);
 
   /* ---- PAGE ENTER: body fade-in (normal visits only) ---- */
   if (!skipAnims) {
