@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ты опозорил свой Непал — Денис Борома</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&display=swap" rel="stylesheet" />
+  <style>
+    /* Глобальный сброс и шрифты в стиле Begotten */
+    body, body * { font-family: 'Cormorant Garamond', serif !important; }
+    .card__emoji, .book__emoji, .float, .chip, .btn, .nav__burger span { font-family: inherit !important; }
+    
+    body {
+      --ink: #000000;
+      --ash: #CCCCCC;
+      --ghost-white: #FFFFFF;
+      background-color: var(--ink);
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.15'/%3E%3C/svg%3E");
+      background-attachment: fixed;
+      color: var(--ash);
+      overflow-x: hidden;
+    }
+
+    /* Навигация — траурная лента */
+    .nav { 
+      background: var(--ink); 
+      border-bottom: 2px dashed #333; 
+    }
+    .nav__inner {
+      max-width: 1120px; margin: 0 auto; padding: 14px 22px;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .nav__logo, .nav__links a {
+      color: var(--ash) !important;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      transition: all 0.3s ease;
+    }
+    .nav__links a:hover {
+      color: var(--ghost-white) !important;
+      text-shadow: 0 0 8px rgba(255,255,255,0.7);
+    }
+
+    /* Кнопка переключения автора (луна/солнце) */
+    .switcher-btn {
+      display: inline-grid;
+      place-items: center;
+      width: 38px;
+      height: 38px;
+      background: #222;
+      color: #ccc;
+      border: 1px solid #444;
+      border-radius: 50%;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
+      margin-left: 20px;
+    }
+    .switcher-btn:hover {
+      background: #444;
+      transform: translateY(-2px);
+      box-shadow: 0 0 12px rgba(255,255,255,0.2);
+    }
+    .switcher-btn:active { transform: translateY(0); }
+    .switcher-btn__icon svg {
+      stroke-width: 1.8;
+    }
+
+    /* Героическая секция */
+    .hero__title { 
+      background: none;
+      color: var(--ghost-white) !important;
+      font-size: 4.5rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: -1px;
+      text-shadow: 0 0 10px rgba(255,255,255,0.5), 2px 2px 0px #000;
+    }
+    .hero__eyebrow {
+      color: #666 !important;
+      text-transform: uppercase;
+      letter-spacing: 4px;
+    }
+    .hero__tagline {
+      font-style: italic;
+      color: var(--ash);
+      border-left: 3px double #444;
+      padding-left: 15px;
+    }
+
+    /* Кнопки — улучшенный стиль */
+    .btn {
+      display: inline-block;
+      padding: 12px 28px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      border-radius: 0px;
+      transition: all 0.25s ease;
+      cursor: pointer;
+      text-decoration: none;
+      border: none;
+      background: transparent;
+    }
+    .btn--primary {
+      background: linear-gradient(135deg, #f0f0f0, #ffffff);
+      color: #000 !important;
+      box-shadow: 4px 4px 0 #222;
+      border: 1px solid #aaa;
+    }
+    .btn--primary:hover {
+      transform: translate(-2px, -2px);
+      box-shadow: 6px 6px 0 #111;
+      background: linear-gradient(135deg, #ffffff, #e0e0e0);
+    }
+    .btn--primary:active {
+      transform: translate(2px, 2px);
+      box-shadow: 2px 2px 0 #222;
+    }
+    .btn--ghost {
+      background: transparent;
+      color: var(--ghost-white) !important;
+      border: 1px solid var(--ghost-white);
+      box-shadow: none;
+    }
+    .btn--ghost:hover {
+      background: rgba(255,255,255,0.12);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 14px rgba(0,0,0,0.3);
+    }
+    .btn--ghost:active {
+      transform: translateY(0);
+    }
+
+    /* Секции и карточки книг */
+    .section__kicker { color: #555 !important; font-weight: bold; text-transform: uppercase; }
+    .section__title { color: var(--ghost-white) !important; }
+    
+    .books-list { max-width: 880px; margin: 0 auto; }
+    .book-item { 
+      display: flex; gap: 32px; margin-bottom: 48px; align-items: center; 
+      background: #080808 !important; 
+      border: 1px solid #1a1a1a;
+      border-radius: 0px !important; 
+      padding: 24px; 
+      box-shadow: 0 0 0 1px #000, 5px 5px 0px #111;
+      justify-content: space-between;  /* <-- картинка прижата к правому краю */
+    }
+    .book-item:hover { border-color: #444; box-shadow: 0 0 15px rgba(255,255,255,0.1); }
+    .book-item__info { flex: 1; }
+    .book-item__title { font-size: 1.8rem; font-weight: 700; color: var(--ghost-white); margin-bottom: 8px; }
+    .book-item__desc { color: #888 !important; margin-bottom: 20px; }
+    .book-item__cover { 
+      flex: 0 0 160px; aspect-ratio: 3/4; border-radius: 0px !important; 
+      filter: grayscale(100%) contrast(300%) brightness(70%);
+      background-color: #111 !important; 
+      border: 2px solid #333;
+      box-shadow: inset 0 0 20px #000;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 3rem;
+    }
+    .book__emoji { font-size: 2.5rem; filter: grayscale(100%); opacity: 0.6; }
+
+    /* Стили для страницы книги (оглавление) */
+    .bookhero {
+      max-width: 1120px; margin: 0 auto; padding: 40px 22px;
+    }
+    .bookhero__inner {
+      display: grid; grid-template-columns: 230px 1fr; gap: 40px; align-items: center;
+    }
+    .bookhero__cover {
+      aspect-ratio: 3/4; border-radius: 0px !important;
+      background-color: #111; border: 2px solid #333;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 4rem; filter: grayscale(100%) contrast(200%);
+    }
+    .bookhero__text .back-link {
+      display: inline-block; color: #888; margin-bottom: 10px;
+    }
+    .bookhero__text .back-link:hover { color: var(--ghost-white); }
+    .bookhero__desc { color: #888; max-width: 52ch; margin: 12px 0 22px; font-size: 1.05rem; }
+
+    .grid {
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 30px;
+      max-width: 1120px; margin: 0 auto; padding: 0 22px;
+    }
+    .card {
+      background: #080808; border: 1px solid #1a1a1a; border-radius: 0px;
+      padding: 0; overflow: hidden; transition: all 0.2s;
+    }
+    .card:hover { border-color: #444; box-shadow: 0 0 12px rgba(255,255,255,0.08); transform: translateY(-2px); }
+    .card__cover {
+      aspect-ratio: 3/4; display: flex; align-items: center; justify-content: center;
+      background-color: #111; border-bottom: 1px solid #222;
+      font-size: 3rem; filter: grayscale(100%) contrast(200%);
+    }
+    .card__body { padding: 18px 20px 22px; }
+    .card__title { font-size: 1.3rem; font-weight: 700; color: var(--ghost-white); margin-bottom: 6px; }
+    .card__meta { color: #777; font-size: 0.8rem; text-transform: uppercase; margin-bottom: 10px; }
+    .card__link { color: #aaa; font-weight: bold; }
+    .card__link:hover { color: var(--ghost-white); }
+
+    /* Страница отдельного произведения */
+    .story {
+      max-width: 760px; margin: 0 auto; padding: 40px 22px;
+    }
+    .story__head { text-align: center; margin-bottom: 36px; }
+    .story__title { font-size: 2.2rem; font-weight: 700; color: var(--ghost-white); }
+    .story__meta { color: #777; margin-top: 6px; }
+    .back-link { color: #888; text-decoration: none; display: inline-block; margin-bottom: 20px; }
+    .back-link:hover { color: var(--ghost-white); }
+    .prose {
+      background: #0a0a0a; border: 1px solid #222; padding: 32px 40px;
+      box-shadow: 5px 5px 0px #111;
+    }
+    .prose p { font-size: 1.12rem; line-height: 1.6; margin-bottom: 1.2em; color: #ccc; }
+    .prose p:first-child::first-letter {
+      font-family: inherit; font-size: 3.4rem; float: left; padding: 6px 12px 0 0;
+      color: #aaa; font-weight: bold;
+    }
+    .prose--poetry p {
+      white-space: pre-wrap; font-family: 'Cormorant Garamond', serif;
+      margin-bottom: 0.5em;
+    }
+    .prose--poetry p:first-child::first-letter {
+      font: inherit; float: none; padding: 0; color: inherit; line-height: inherit;
+    }
+    .story__foot {
+      margin-top: 40px; display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap;
+    }
+
+    /* Цитата */
+    .quote {
+      text-align: center; max-width: 820px; margin: 0 auto; padding: 60px 30px;
+    }
+    .quote__mark { font-size: 6rem; line-height: 0.5; color: #222; }
+    .quote blockquote { font-size: 1.6rem; color: #999; font-style: italic; margin: 10px 0 16px; }
+    .quote__author { color: var(--ghost-white); text-transform: uppercase; letter-spacing: 2px; }
+
+    /* Контакты */
+    .contact__card {
+      max-width: 720px; margin: 40px auto; text-align: center;
+      background: #000 !important; border: 3px double #222; padding: 40px;
+    }
+    .contact__lead { color: #888; margin: 12px 0 24px; }
+    .contact__links { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+    .chip {
+      background: #111 !important; color: #aaa !important; border: 1px solid #333 !important;
+      border-radius: 0px !important; text-transform: uppercase; padding: 12px 24px;
+      font-weight: bold; transition: all 0.25s ease;
+      text-decoration: none;
+    }
+    .chip:hover {
+      background: var(--ghost-white) !important; color: var(--ink) !important;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 14px rgba(0,0,0,0.3);
+    }
+
+    /* Подвал */
+    .footer {
+      text-align: center; padding: 50px 22px 40px;
+      background: #000 !important; color: #444 !important;
+      border-top: 1px solid #222 !important;
+    }
+    .footer__logo { font-size: 1.3rem; color: #666 !important; text-transform: uppercase; letter-spacing: 3px; }
+    .footer__copy { opacity: 0.6; font-size: 0.9rem; }
+
+    /* Адаптивность */
+    @media (max-width: 800px) {
+      .bookhero__inner, .hero__inner { grid-template-columns: 1fr; text-align: center; }
+      .book-item { flex-direction: column-reverse; text-align: center; }
+      .book-item__cover { width: 140px; margin: 0 auto; }
+      .story__foot { flex-direction: column; align-items: center; }
+      .hero__title { font-size: 3rem; }
+    }
+    @media (max-width: 640px) {
+      .prose { padding: 20px; }
+      .hero__title { font-size: 2.6rem; }
+    }
+    /* Бургер-меню для мобильных */
+    .nav__burger {
+      display: none; flex-direction: column; gap: 5px; background: none; border: none; cursor: pointer;
+    }
+    .nav__burger span { width: 26px; height: 3px; background: #ccc; transition: 0.2s; }
+    @media (max-width: 820px) {
+      .nav__burger { display: flex; }
+      .nav__links {
+        position: absolute; top: 100%; right: 0; left: 0;
+        flex-direction: column; background: #000; padding: 20px; gap: 14px;
+        transform: translateY(-12px); opacity: 0; pointer-events: none; transition: 0.25s;
+        z-index: 100;
+      }
+      .nav__links.is-open { opacity: 1; transform: none; pointer-events: auto; }
+    }
+</style>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90' fill='#aaa'>📖</text></svg>" />
+</head>
+<body data-author="boroma">
+  <header class="nav" id="nav">
+    <div class="nav__inner">
+      <a href="../../boroma.html" class="nav__logo">Денис&nbsp;Борома</a>
+      <button class="nav__burger" id="burger" aria-label="Меню" aria-expanded="false"><span></span><span></span><span></span></button>
+      <nav class="nav__links" id="navLinks">
+        <a href="../../boroma.html#hero">Об авторе</a>
+        <a href="../../boroma.html#books">Книги</a>
+        <a href="../../boroma.html#contact">Контакты</a>
+      </nav>
+    </div>
+  </header>
+
+  <article class="story">
+    <div class="story__head">
+      <a class="back-link" href="../../books/istoriya-svetlyh-vremen.html">← История светлых времён</a>
+      <span class="section__kicker">~ рассказ ~</span>
+      <h1 class="story__title">Ты опозорил свой Непал</h1>
+      <p class="story__meta">рассказ · 09.05.2022</p>
+    </div>
+    <div class="prose">
+      <p>Это был один из многих ничем не примечательных дней, один из таких, которые осенней дождливой вереницей тянутся бесконечно долго, следуя друг за другом, сменяя друг друга по заранее кем-то назначенному правилу, и кажется, что так было всегда, и что не будет конца этой веренице. Дни уходят незаметно, но не исчезают окончательно, они хранятся где-то, как плотно прижатые друг к другу листы исписанной кем-то бумаги, огромными стопками, то здесь, то там разбросанными в пыльной библиотеке, а некоторые из них собраны как пробитые, уже отоваренные, кассовые чеки на длинной и острой, отполированной до блеска металлической спице*.</p>
+      <p>Острая игла времени навсегда фиксирует их, и вот они уже выцветшие и нечитаемые нанизаны вместе с себе подобными и плотно прижаты друг к другу. Их много таких совершенно одинаковых дней, дней-чеков, дней-купонов, и все они одинаково незначительные, пока не начнешь их читать, но на них напечатано обычно так мелко, что все сливается, и уже не отличишь предыдущий день от последующего.</p>
+      <p>И этот осенний день был бы именно таким, и стал бы навсегда потерянным, в сырой осени, в непрерывно и медленно падающих листьях, в глубоких бездонных лужах, в каплях теплого, пока еще теплого дождя. Если бы не какое-то, возможно, на первый взгляд, совсем незначительное событие, вдруг не выбилось из общей равномерности потока, и мы уже не можем не запомнить этот день, на спицу времени он попадает своей оборотной стороной, лицом к нам. Конечно, мы можем с течением времени забыть и его подробности тоже, но ощущать будем всегда, что где-то прочный металл с трудом сдерживает скрытый смысл пережитого нами, и день продолжает существовать в своем особом измерении, которое так близко, что можно к нему легко прикоснутся, и сущность его проснется и вернется к жизни от этого легкого прикосновения, и заиграет и запестрит былыми, а может даже и новыми более яркими красками, которых раньше совсем и не было.</p>
+      <p>Так было и в этот раз. Джон и Серега, только открыв дверь и переступив порог комнаты, впустили из коридора свежий поток коридорного воздуха вперемешку с запахом сигарет и кухонной готовки, начали наперебой что-то рассказывать, казалось, они очень спешат, потому что боятся упустить, или просто забыть какие-то важные детали. Они принесли с собой удивительную историю, сцену стремительного полета и не менее стремительного выселения из второго общежития, которая «сделала» этот наш день, обеспечив ему бессмертие вместо забвения.</p>
+      <p>В тот год во втором общежитии поселилось много студентов из Непала, они привезли с собой особый непальский колорит, дыхание одной из древнейших цивилизаций, ощущение полной открытости самых далеких и немыслимых уголков мира для всех желающих, а еще непальские обычаи и нравы.</p>
+      <p>Комендантом второго общежития на тот момент был бывший студент, которого звали Коля. Этот человек был огромного роста и недюжинной силы, в наличии которой никто не имел никакого желания сомневаться, и как мне тогда казалось, по слухам и обрывкам нерегулярно доходившей информации, достоверность которой совершенно на тот момент меня не интересовала, обладал болезненным чувством справедливости, но это не точно.</p>
+      <p>Эту сцену сейчас я вижу ясно и отчетливо, на этом купоне чековой ленты все записано и не просто записано, это существует и повторяется бесконечно: огромная сумка с вещами, большая часть которых пропутешествовала полмира прежде чем попасть на порог второго общежития, с огромной скоростью с высокого крыльца летит в непальца, который, на глазах изумленной немногочисленной публики, хватая ее, падает, не рассчитав свои силы. Громкий возглас Коли, который каменной горой возвышается на том же крыльце, эта фраза звучит как приговор, который не подлежит обжалованию, она режет пространство пронзительно и безапелляционно: «Ты опозорил свой Непал!»</p>
+      <p>И это было не важно - узнать причины произошедшего, нам даже в голову не пришло выяснить какие-то дополнительные детали, мы не стали никого расспрашивать об этом эпизоде, а вдруг бы мы узнали нечто, что разрушило бы всю поэтичность этого особенного момента, ведь только в неведении можно придумывать бесконечно самые невероятные сценарии и все они будут иметь право на жизнь.</p>
+      <p>«Ты опозорил свой Непал!», и нет места на Земле, где можно спрятаться от этого, и не найдется места даже в веренице дней, что бы скрыть в забытье этот свой новый удел. Как он мог сделать это? Что вообще он должен был сделать, чтобы заслужить такую резолюцию, стать изгоем, в чужой стране с чуждой культурой, и как кажется, совсем без шансов даже в будущем на возврат к нормальной жизни. Наверное, он был особо не осторожен, перешел какие-то совсем уж запретные границы, грубо нарушил рамки дозволенного, а возможно, просто бесцеремонно сломал чьи-то стереотипы.</p>
+      <p>А где-то далеко-далеко, а может быть и совсем близко, седой старец-монах с лицом изрезанным водой и ветрами, в бывших когда-то оранжевыми одеждах, неподвижно сидящий вот уже несколько лет в немыслимой молчаливой медитации на ровном плато Снежной горы Лачи, еле заметно улыбнулся в этот момент и достиг Просветления. Он вдруг получил то, чего не хватало ему все это время, простое и естественное человеческое ощущение, которое он искал уже несколько лет и нашел только сейчас. Он позавидовал, совсем немного, этому юному, не умудренному жизненным опытом, непальцу, позавидовал тому пути, который тому еще только предстоит пройти, тем чудесным превращениям, которые с ним еще случатся, тем открытиям, которые еще только ждут своего открывателя, тогда как свой собственный путь им уже пройден, как минимум в текущей земной жизни, позавидовал потоку новых знаний, которые, как чистая вода горного водопада, только и ждут пустого сосуда, чтобы наполнить его до краев.</p>
+      <p>*В былые времена все чеки, которые пробивались кассовыми аппаратами в магазинах, на комбинатах общественного питания и в других подобных заведениях, имеющих дело с наличными деньгами, накалывались на острую спицу, которая торчала вертикально вверх из массивного основания. Продавец на кассе, или точнее и правильнее будет сказать, продавщица за кассой, обычно это немного полная женщина, которую её совсем незначительная полнота только украшает, одетая в белый халат, с короткими рукавами и приколотую невидимками прямо к прическе белую шапочку, представляющую из себя особый симбиоз цилиндрического колпака и пилотки, к которой иногда пришиты искусственные кружева, всегда имеет немного торжественный, преисполненный своей собственной значимости вид, неизменно выделяющий ее из серой массы простых статистов, поскольку эта её особенная роль всегда была, да и навсегда остается немногим по силам, не секрет, что во все времена непознаваемая логика тайных знаний доступна только избранным.</p>
+      <p>Все должны помнить этот незыблемый алгоритм, таинство, годами отработанных действий, нерушимую последовательность, соблюдение которой всегда было неукоснительным, когда после выбора необходимого товара покупатель получал от продавщицы документ с обозначенной на ней массой товара и его наименованием, далее он следовал к кассе, где уже другой продавщице, которая находилась за кассой, отдавал этот документ и взамен, после оплаты, получал чек, подтверждающий факт покупки, после покупатель возвращался с кассовым чеком обратно, получал оплаченный товар, и вот здесь совершалось с первого взгляда немыслимое: продавщица должна была обязательно повредить этот чек, разорвать его, но не полностью, только порвать, например, до середины, проколоть спицей, или хотя бы надорвать у него угол. Порой бывало, что касса находилась не где-то в другом удаленном месте, а сразу за первым прилавком, алгоритм в  этом случае немного упрощался, но неизменным оставалось одно: каждый чек, исполнивший свое предназначение, в любом случае, должен быть поврежден.</p>
+      <p>Аккуратная продавщица не могла пропустить ни один чек и делала это виртуозно, всегда одним и тем же только ей одной характерным образом, отличным от всех других.</p>
+      <p>Патологически аккуратная продавщица, (а давайте, уважаемый читатель, ее сделаем в этом повествовании именно такой, предельно скрупулезной принципиальной перфекционисткой, с полным набором внутренних, одной ей понятных строгих и нерушимых ограничений и правил) отработанным движением накалывает пробитые на кассе чеки на иглу так, что их края совпадают, и несмотря на то, что у чеков может быть разная длина, ширина стопки на игле не на один миллиметр не отличается от ширины кассовой ленты, причем и пустые полоски, которые остаются в кассе, в конце чековой ленты, она тоже накалывает, ведь не выбрасывать же их, ведь не сорить же там, где и так полно всякого сора, ведь по этим пустым полоскам можно легко определить, сколько рулонов ленты ушло за день, ведь когда-нибудь могут прийти школьники и забрать всю эту бумагу в макулатуру, а с пустыми полосками они соберут ее гораздо больше, но это случится только после того, когда по окончанию рабочего дня она спокойно и деловито проведет полный учет, сравнит сумму денег в кассе с цифрами в чеках и баланс сойдется до последней копеечки, впрочем, как это у нее всегда бывает.</p>
+      <p>И вот неспешным движением сверху вниз, плавно и сосредоточенно, продавщица, преисполненная непостижимым для несведущих смыслом, аккуратно прокалывает пустую полоску, и сразу в этот момент скрипучий звук пронизывает все окружающее пространство, гулким эхом в пустоте откликаются бетонные стены и своды, а где-то в параллельной вселенной еще один день, в который вообще ничего не случилось, настолько ничего, что этот день забывается сразу после его окончания, присоединятся к веренице ушедших дней, к плотной стопке крепко сшитой иглой времени. И если у других дней есть хоть какой-нибудь шанс попасть в наши воспоминания, получить утраченную реальность, выбраться из-под тяжести забытья, обрести былые очертания, даже порой, бывает, усилить в каком-то роде, свою значительность, то у пустой полоски такого шанса нет; «нет» от слова «совсем», как любит повторять один из моих учителей. Наше время ничем не ограничено, но даже в бесконечности времени, данного нам, вероятность вернуть прежнюю жизнь такому дню настолько ничтожна и так стремится к нулю, что зачастую он оказывается утерянным окончательно.</p>
+    </div>
+    <div class="story__foot">
+      <a class="btn btn--ghost" href="../../books/istoriya-svetlyh-vremen.html">← Ко всем рассказам</a>
+      <a class="btn btn--ghost" href="https://proza.ru/2022/05/09/51" target="_blank" rel="noopener">Оригинал на Проза.ру ↗</a>
+    </div>
+  </article>
+
+  <footer class="footer">
+    <p class="footer__logo">Денис Борома</p>
+    <p class="footer__copy">© <span id="year"></span> Денис Борома. Все права защищены.</p>
+  </footer>
+  
+<script>
+  (function() {
+    // --- год в подвале ---
+    var yearEl = document.getElementById('year');
+    if (yearEl) yearEl.textContent = new Date().getFullYear();
+
+    // --- мобильное меню ---
+    var burger = document.getElementById('burger');
+    var navLinks = document.getElementById('navLinks');
+    if (burger && navLinks) {
+      burger.addEventListener('click', function() {
+        var open = navLinks.classList.toggle('is-open');
+        burger.setAttribute('aria-expanded', String(open));
+      });
+      navLinks.querySelectorAll('a').forEach(function(a) {
+        a.addEventListener('click', function() {
+          navLinks.classList.remove('is-open');
+          burger.setAttribute('aria-expanded', 'false');
+        });
+      });
+    }
+
+    // --- тень на навбаре ---
+    var nav = document.getElementById('nav');
+    function onScroll() {
+      if (nav) nav.classList.toggle('is-scrolled', window.scrollY > 10);
+    }
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+
+    // --- кнопка переключения автора (луна/солнце) ---
+    var author = document.body.getAttribute('data-author') || 'boroma';
+    var inBooks = window.location.pathname.replace(/\\/g, '/').indexOf('/books/') !== -1;
+    var depth = inBooks ? (window.location.pathname.indexOf('/story/') !== -1 ? '../../' : '../') : './';
+    var destUrl = author === 'boroma' ? depth + 'index.html' : depth + 'boroma.html';
+    var destName = author === 'boroma' ? 'Владимир&nbsp;Русин' : 'Денис&nbsp;Борома';
+    var moonIcon = '<svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.8A9 9 0 1 1 11.2 3 7 7 0 0 0 21 12.8z"/></svg>';
+    var sunIcon = '<svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4.2"/><path d="M12 1.8v2.4M12 19.8v2.4M4.2 4.2l1.7 1.7M18.1 18.1l1.7 1.7M1.8 12h2.4M19.8 12h2.4M4.2 19.8l1.7-1.7M18.1 5.9l1.7-1.7"/></svg>';
+    var destIcon = author === 'boroma' ? sunIcon : moonIcon;
+
+    var btn = document.createElement('button');
+    btn.className = 'switcher-btn';
+    btn.setAttribute('aria-label', 'Перейти к автору: ' + destName.replace(/&nbsp;/g, ' '));
+    btn.innerHTML = '<span class="switcher-btn__icon">' + destIcon + '</span>';
+    var navTarget = document.querySelector('.nav__links') || document.querySelector('.nav__inner') || document.body;
+    navTarget.appendChild(btn);
+
+    btn.addEventListener('click', function() {
+      btn.style.pointerEvents = 'none';
+      var iframe = document.createElement('iframe');
+      iframe.setAttribute('src', destUrl);
+      iframe.setAttribute('scrolling', 'no');
+      iframe.style.cssText = 'position:fixed; inset:0; width:100%; height:100%; border:none; z-index:998; clip-path:circle(0% at calc(100% - 38px) calc(0% - 38px)); pointer-events:none;';
+      document.body.appendChild(iframe);
+      var revealed = false;
+      function expandPortal() {
+        if (revealed) return;
+        revealed = true;
+        requestAnimationFrame(function() {
+          requestAnimationFrame(function() {
+            iframe.style.transition = 'clip-path .68s cubic-bezier(.4,0,.2,1)';
+            iframe.style.clipPath = 'circle(150% at calc(100% - 38px) calc(0% - 38px))';
+            setTimeout(function() {
+              sessionStorage.setItem('sw_portal', '1');
+              window.location.href = destUrl;
+            }, 720);
+          });
+        });
+      }
+      iframe.onload = expandPortal;
+      setTimeout(expandPortal, 1400);
+    });
+
+    // --- плавное появление страницы (только если не из портала) ---
+    var fromPortal = !!sessionStorage.getItem('sw_portal');
+    if (!fromPortal && !window.location.search.includes('portal')) {
+      document.body.style.opacity = '0';
+      setTimeout(function() {
+        document.body.style.transition = 'opacity .72s cubic-bezier(.4,0,.2,1)';
+        document.body.style.opacity = '1';
+        setTimeout(function() { document.body.style.transition = ''; document.body.style.opacity = ''; }, 800);
+      }, 60);
+    }
+    sessionStorage.removeItem('sw_portal');
+  })();
+</script>
+
+</body>
+</html>

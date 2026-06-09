@@ -857,7 +857,7 @@ body.theme-dark .hero::after {
 .switcher-btn:active { transform: translateY(0); box-shadow: 0 2px 6px rgba(0,0,0,.22); }
 .switcher-btn__icon { display: grid; place-items: center; line-height: 0; }
 /* на тёмной странице Боромы — наоборот, светлая кнопка с солнцем */
-body.theme-dark .switcher-btn { background: var(--cream); color: #B8862A; border-color: rgba(0,0,0,.15); }
+body.theme-dark .switcher-btn { background: var(--cream); color: #C9A028; border-color: #B8862A; }
 body.theme-dark .switcher-btn:hover { background: var(--white); }
 
 /* Полное отключение анимаций reveal при переключении через портал */

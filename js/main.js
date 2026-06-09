@@ -188,7 +188,7 @@ var skipAnims = fromPortal || inPortalFrame;
       "position:fixed", "inset:0",
       "width:100%", "height:100%",
       "border:none", "z-index:998",
-      "clip-path:circle(0% at calc(100% - 38px) calc(100% - 38px))",
+      "clip-path:circle(0% at calc(100% - 38px) calc(0% - 38px))",
       "pointer-events:none"
     ].join(";");
     document.body.appendChild(iframe);
@@ -202,7 +202,7 @@ var skipAnims = fromPortal || inPortalFrame;
           iframe.style.transition =
             "clip-path .68s cubic-bezier(.4,0,.2,1)";
           iframe.style.clipPath =
-            "circle(150% at calc(100% - 38px) calc(100% - 38px))";
+            "circle(150% at calc(100% - 38px) calc(0% - 38px))";
 
           setTimeout(function () {
             sessionStorage.setItem("sw_portal", "1");
