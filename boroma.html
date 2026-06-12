@@ -98,8 +98,9 @@
       cursor: pointer;
       transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
       margin-right: 22px;
-      margin-top: -4px;
+      margin-top: -6px;
       box-shadow: 0 0 8px rgba(255, 255, 255, 0.7), 0 2px 6px rgba(0,0,0,0.2);
+      flex-shrink: 0;
     }
     .switcher-btn:hover {
       background: #ffffff;
@@ -354,6 +355,10 @@
       .books-list {
         padding: 0 16px;
       }
+      .switcher-btn {
+        margin-left: auto;
+        margin-right: auto;
+      }
     }
     @media (max-width: 640px) {
       .prose { padding: 20px; }
@@ -363,7 +368,8 @@
     .nav__burger {
       display: none; flex-direction: column; gap: 5px; background: none; border: none; cursor: pointer;
     }
-    .nav__burger span { width: 26px; height: 3px; background: #ccc; transition: 0.2s; }
+    .nav__burger span { width: 26px; height: 0.5px; background: #ccc; transition: 0.2s; }
+
     @media (max-width: 820px) {
       .nav__burger { display: flex; }
       .nav__links {
@@ -554,31 +560,48 @@
     var navTarget = document.querySelector('.nav__links') || document.querySelector('.nav__inner') || document.body;
     navTarget.appendChild(btn);
 
-    btn.addEventListener('click', function() {
-      btn.style.pointerEvents = 'none';
-      var iframe = document.createElement('iframe');
-      iframe.setAttribute('src', destUrl);
-      iframe.setAttribute('scrolling', 'no');
-      iframe.style.cssText = 'position:fixed; inset:0; width:100%; height:100%; border:none; z-index:998; clip-path:circle(0% at calc(100% - 38px) calc(0% - 38px)); pointer-events:none;';
-      document.body.appendChild(iframe);
-      var revealed = false;
-      function expandPortal() {
-        if (revealed) return;
-        revealed = true;
-        requestAnimationFrame(function() {
-          requestAnimationFrame(function() {
-            iframe.style.transition = 'clip-path .68s cubic-bezier(.4,0,.2,1)';
-            iframe.style.clipPath = 'circle(150% at calc(100% - 38px) calc(0% - 38px))';
-            setTimeout(function() {
-              sessionStorage.setItem('sw_portal', '1');
-              window.location.href = destUrl;
-            }, 720);
-          });
+    btn.addEventListener('click', function () {
+    btn.style.pointerEvents = 'none';
+
+    // Получаем координаты центра кнопки
+    const rect = btn.getBoundingClientRect();
+    const centerX = rect.left + rect.width / 2;
+    const centerY = rect.top + rect.height / 2;
+
+    const iframe = document.createElement('iframe');
+    iframe.setAttribute('src', destUrl);
+    iframe.setAttribute('scrolling', 'no');
+    iframe.style.cssText = `
+      position: fixed;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      border: none;
+      z-index: 998;
+      clip-path: circle(0% at ${centerX}px ${centerY}px);
+      pointer-events: none;
+    `;
+    document.body.appendChild(iframe);
+
+    let revealed = false;
+    function expandPortal() {
+      if (revealed) return;
+      revealed = true;
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          iframe.style.transition = 'clip-path 0.68s cubic-bezier(0.4, 0, 0.2, 1)';
+          iframe.style.clipPath = `circle(150% at ${centerX}px ${centerY}px)`;
+          setTimeout(() => {
+            sessionStorage.setItem('sw_portal', '1');
+            window.location.href = destUrl;
+          }, 720);
         });
-      }
-      iframe.onload = expandPortal;
-      setTimeout(expandPortal, 1400);
-    });
+      });
+    }
+
+  iframe.onload = expandPortal;
+  setTimeout(expandPortal, 1400);
+});
 
     // --- плавное появление страницы (только если не из портала) ---
     var fromPortal = !!sessionStorage.getItem('sw_portal');

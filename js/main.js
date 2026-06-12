@@ -178,41 +178,46 @@ var skipAnims = fromPortal || inPortalFrame;
   }
 
   /* ---- PAGE LEAVE: iframe portal ---- */
-  btn.addEventListener("click", function () {
-    btn.style.pointerEvents = "none";
+  btn.addEventListener('click', function () {
+  btn.style.pointerEvents = 'none';
 
-    var iframe = document.createElement("iframe");
-    iframe.setAttribute("src", destUrl);
-    iframe.setAttribute("scrolling", "no");
-    iframe.style.cssText = [
-      "position:fixed", "inset:0",
-      "width:100%", "height:100%",
-      "border:none", "z-index:998",
-      "clip-path:circle(0% at calc(100% - 38px) calc(0% - 38px))",
-      "pointer-events:none"
-    ].join(";");
-    document.body.appendChild(iframe);
+  // Получаем координаты центра кнопки
+  const rect = btn.getBoundingClientRect();
+  const centerX = rect.left + rect.width / 2;
+  const centerY = rect.top + rect.height / 2;
 
-    var revealed = false;
-    function expandPortal() {
-      if (revealed) return;
-      revealed = true;
-      requestAnimationFrame(function () {
-        requestAnimationFrame(function () {
-          iframe.style.transition =
-            "clip-path .68s cubic-bezier(.4,0,.2,1)";
-          iframe.style.clipPath =
-            "circle(150% at calc(100% - 38px) calc(0% - 38px))";
+  const iframe = document.createElement('iframe');
+  iframe.setAttribute('src', destUrl);
+  iframe.setAttribute('scrolling', 'no');
+  iframe.style.cssText = `
+    position: fixed;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    border: none;
+    z-index: 998;
+    clip-path: circle(0% at ${centerX}px ${centerY}px);
+    pointer-events: none;
+  `;
+  document.body.appendChild(iframe);
 
-          setTimeout(function () {
-            sessionStorage.setItem("sw_portal", "1");
-            window.location.href = destUrl;
-          }, 720);
-        });
+  let revealed = false;
+  function expandPortal() {
+    if (revealed) return;
+    revealed = true;
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        iframe.style.transition = 'clip-path 0.68s cubic-bezier(0.4, 0, 0.2, 1)';
+        iframe.style.clipPath = `circle(150% at ${centerX}px ${centerY}px)`;
+        setTimeout(() => {
+          sessionStorage.setItem('sw_portal', '1');
+          window.location.href = destUrl;
+        }, 720);
       });
-    }
+    });
+  }
 
-    iframe.onload = expandPortal;
-    setTimeout(expandPortal, 1400);  /* safety fallback */
-  });
+  iframe.onload = expandPortal;
+  setTimeout(expandPortal, 1400);
+});
 })();
