@@ -1,16 +1,41 @@
-<!DOCTYPE html>
-<html lang="ru">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Денис Борома — рассказы, этюды, баллады</title>
-  <meta name="description" content="Рассказы, миниатюры, баллады и московские этюды Дениса Боромы. Современная русская литература." />
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&display=swap" rel="stylesheet" />
-  <style>
-    #hero {
-      scroll-margin-top: 70px;   /* высота вашей sticky-шапки + небольшой запас */
-    }
+from collections import OrderedDict
 
+SECTION_INFO = OrderedDict([
+    ("ИСТОРИЯ СВЕТЛЫХ ВРЕМЕН", {
+        "title": "История светлых времён",
+        "slug": "istoriya-svetlyh-vremen",
+        "desc": "Оглядываясь в прошлое, можно ощутить яркую вспышку в начале времен, которая озаряет особое измерение, живущее своей собственной жизнью. Вдруг консервный нож разрезает привычную реальность, и новая, всегда бывшая рядом действительность заполняет всё вокруг, заставляя нас забыть себя и безрассудно броситься ей навстречу.",
+        "emoji": "🥫",
+        "cover_class": "cover--1",
+    }),
+    ("ЦИКЛ", {
+        "title": "Цикл «И пришёл Мессия»",
+        "slug": "cikl",
+        "desc": "Философская притча о непостижимости искупительной жертвы и быстроте человеческой памяти, написанная в стилистике, сочетающей библейский пафос с ироническим налётом современности.",
+        "emoji": "🕯️",
+        "cover_class": "cover--3",
+    }),
+    ("МОСКОВСКИЕ ЭТЮДЫ", {
+        "title": "Московские этюды",
+        "slug": "moskovskie-etyudy",
+        "desc": "Магический реализм, знакомый каждому москвичу.",
+        "emoji": "🌆",
+        "cover_class": "cover--4",
+    }),
+    ("БАЛЛАДЫ", {
+        "title": "Баллада о Плане",
+        "slug": "ballady",
+        "desc": "Исповедально-галлюцинаторная поэма про ссылку в место, забытое Богом, и прозябание среди кухонной грязи, блатного сленга и ЛАНГОЛЬЕРОВ, где действительность смешивается с безобразными видениями. Позор непальцу.",
+        "emoji": "🌌",
+        "cover_class": "cover--2",
+    }),
+])
+
+# ---------- Единый тёмный стиль (как в boroma.html + улучшения) ----------
+BOROMA_CSS = """
+    #hero {
+      scroll-margin-top: 70px;
+    }
     body, body * { font-family: 'Cormorant Garamond', serif !important; }
     .card__emoji, .book__emoji, .float, .chip, .btn, .nav__burger span { font-family: inherit !important; }
     
@@ -28,7 +53,7 @@
     .nav { 
       background: var(--ink); 
       border-bottom: 1px dashed #333;
-      position: sticky;      /* прилипание */
+      position: sticky;
       top: 0;
       z-index: 100;
     }
@@ -37,7 +62,7 @@
       margin: 0 auto;
       padding: 14px 22px;
       display: flex;
-      align-items: center;        /* вертикальное выравнивание по центру */
+      align-items: center;
       justify-content: space-between;
     }
     .nav__logo {
@@ -45,12 +70,12 @@
       text-transform: uppercase;
       letter-spacing: 2px;
       text-decoration: none;
-      line-height: 1;            /* фиксируем высоту строки */
+      line-height: 1;
       display: inline-block;
     }
     .nav__links {
       display: flex;
-      gap: 48px;               /* увеличенное расстояние между пунктами */
+      gap: 48px;
       align-items: center;
     }
     .nav__links a {
@@ -58,19 +83,18 @@
       text-transform: uppercase;
       letter-spacing: 2px;
       text-decoration: none;
-      position: relative;      /* для псевдоэлемента */
+      position: relative;
       padding-bottom: 4px;
       transition: color 0.3s ease;
-      line-height: 1;            /* одинаковая высота строки с логотипом */
+      line-height: 1;
     }
-    /* Анимированное подчёркивание */
     .nav__links a::after {
       content: "";
       position: absolute;
       left: 0;
-      bottom: -2px;              /* раньше было -4px – теперь ближе */
+      bottom: -2px;
       width: 0;
-      height: 0.5px;               /* тоньше: 1px вместо 2px */
+      height: 0.5px;
       background-color: var(--ghost-white);
       transition: width 0.25s ease;
     }
@@ -85,20 +109,18 @@
       text-shadow: 0 0 8px rgba(255,255,255,0.7);
     }
 
-    /* ✅ 3. Кнопка перехода на сайт Владимира Русина (дневная тема) — светлая */
     .switcher-btn {
       display: inline-grid;
       place-items: center;
       width: 36px;
       height: 36px;
-      background: #f4f4f4;      /* светлый фон */
-      color: #111;              /* тёмная иконка */
+      background: #f4f4f4;
+      color: #111;
       border: 1px solid #aaa;
       border-radius: 50%;
       cursor: pointer;
       transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
       margin-right: 22px;
-      margin-top: -4px;
       box-shadow: 0 0 8px rgba(255, 255, 255, 0.7), 0 2px 6px rgba(0,0,0,0.2);
     }
     .switcher-btn:hover {
@@ -111,7 +133,6 @@
       stroke-width: 1.8;
     }
 
-    /* Героическая секция */
     .hero__title { 
       background: none;
       color: var(--ghost-white) !important;
@@ -122,7 +143,7 @@
       text-shadow: 0 0 10px rgba(255,255,255,0.5), 2px 2px 0px #000;
     }
     .hero__eyebrow {
-      color: #979797 !important;
+      color: #666 !important;
       text-transform: uppercase;
       letter-spacing: 4px;
     }
@@ -133,7 +154,6 @@
       padding-left: 15px;
     }
 
-    /* Кнопки — улучшенный стиль */
     .btn {
       display: inline-block;
       padding: 12px 28px;
@@ -177,70 +197,39 @@
       transform: translateY(0);
     }
 
-    /* Секции и карточки книг */
     .section__kicker { color: #555 !important; font-weight: bold; text-transform: uppercase; }
     .section__title { color: var(--ghost-white) !important; }
     
-    /* НОВЫЙ КОНТЕЙНЕР ДЛЯ КАРТОЧЕК — УЗКИЙ И ПО ЦЕНТРУ */
-    .books-list {
-      max-width: 800px;          /* ширина контейнера — уже, карточки не растягиваются */
-      margin: 0 auto;            /* горизонтальное центрирование */
-      padding: 0 22px;           /* боковые отступы для маленьких экранов */
-    }
-
-    /* Стили самой карточки (уже существующие, но обеспечим вложенность) */
-    .book-item {
-      display: flex;
-      gap: 32px;
-      margin-bottom: 48px;
-      align-items: center;
-      background: #080808 !important;
+    .books-list { max-width: 880px; margin: 0 auto; }
+    .book-item { 
+      display: flex; gap: 32px; margin-bottom: 48px; align-items: center; 
+      background: #080808 !important; 
       border: 1px solid #1a1a1a;
-      border-radius: 0px !important;
-      padding: 24px;
+      border-radius: 0px !important; 
+      padding: 24px; 
       box-shadow: 0 0 0 1px #000, 5px 5px 0px #111;
       justify-content: space-between;
-      transition: all 0.2s;
       width: 60%; margin-left: auto; margin-right: auto;
     }
-    .book-item:hover {
-      border-color: #444;
-      box-shadow: 0 0 15px rgba(255,255,255,0.1);
-    }
-    .book-item__info {
-      flex: 1;
-    }
-    .book-item__title {
-      font-size: 1.8rem;
-      font-weight: 700;
-      color: var(--ghost-white);
-      margin-bottom: 8px;
-      text-shadow: 0 0 10px rgba(255,255,255,0.5), 2px 2px 0px #000;
-    }
-    .book-item__desc {
-      color: #aeaeae !important;
-      margin-bottom: 20px;
-    }
-    .book-item__cover {
-      flex: 0 0 160px;
-      aspect-ratio: 3/4;
-      border-radius: 0px !important;
+    .book-item:hover { border-color: #444; box-shadow: 0 0 15px rgba(255,255,255,0.1); }
+    .book-item__info { flex: 1; }
+    .book-item__title { font-size: 1.8rem; font-weight: 700; color: var(--ghost-white); margin-bottom: 8px; }
+    .book-item__desc { color: #aeaeae !important; margin-bottom: 20px; }
+    .book-item__cover { 
+      flex: 0 0 160px; aspect-ratio: 3/4; border-radius: 0px !important; 
       filter: grayscale(100%) contrast(200%);
-      background-color: #111 !important;
+      background-color: #111 !important; 
       border: 2px solid #333;
       box-shadow: inset 0 0 20px #000;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      display: flex; align-items: center; justify-content: center;
       font-size: 3rem;
     }
-    .book__emoji {
+    .book__emoji { 
       font-size: inherit;
       filter: none;
       opacity: 1;
     }
 
-    /* Стили для страницы книги (оглавление) */
     .bookhero {
       max-width: 1120px; margin: 0 auto; padding: 40px 22px;
     }
@@ -254,14 +243,17 @@
       font-size: 3rem; filter: grayscale(100%) contrast(200%);
     }
     .bookhero__text .back-link {
-      display: inline-block; color: #888; margin-bottom: 10px;
+      display: inline-block; color: #aeaeae; margin-bottom: 10px;
     }
     .bookhero__text .back-link:hover { color: var(--ghost-white); }
-    .bookhero__desc { color: #888; max-width: 52ch; margin: 12px 0 22px; font-size: 1.05rem; }
+    .bookhero__desc { color: #aeaeae; max-width: 52ch; margin: 12px 0 22px; font-size: 1.05rem; }
 
     .grid {
       display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 30px;
       max-width: 1120px; margin: 0 auto; padding: 0 22px;
+    }
+    .section .grid {
+      margin-bottom: 48px;
     }
     .card {
       background: #080808; border: 1px solid #1a1a1a; border-radius: 0px;
@@ -279,7 +271,6 @@
     .card__link { color: #aaa; font-weight: bold; }
     .card__link:hover { color: var(--ghost-white); }
 
-    /* Страница отдельного произведения */
     .story {
       max-width: 760px; margin: 0 auto; padding: 40px 22px;
     }
@@ -308,7 +299,6 @@
       margin-top: 40px; display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap;
     }
 
-    /* Цитата */
     .quote {
       text-align: center; max-width: 820px; margin: 0 auto; padding: 60px 30px;
     }
@@ -316,12 +306,11 @@
     .quote blockquote { font-size: 1.6rem; color: #999; font-style: italic; margin: 10px 0 16px; }
     .quote__author { color: var(--ghost-white); text-transform: uppercase; letter-spacing: 2px; }
 
-    /* Контакты */
     .contact__card {
       max-width: 720px; margin: 40px auto; text-align: center;
       background: #000 !important; border: 3px double #222; padding: 40px;
     }
-    .contact__lead { color: #969696; margin: 12px 0 24px; }
+    .contact__lead { color: #888; margin: 12px 0 24px; }
     .contact__links { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
     .chip {
       background: #111 !important; color: #aaa !important; border: 1px solid #333 !important;
@@ -335,7 +324,6 @@
       box-shadow: 0 6px 14px rgba(0,0,0,0.3);
     }
 
-    /* Подвал */
     .footer {
       text-align: center; padding: 50px 22px 40px;
       background: #000 !important; color: #444 !important;
@@ -344,22 +332,17 @@
     .footer__logo { font-size: 1.3rem; color: #919191 !important; text-transform: uppercase; letter-spacing: 3px; }
     .footer__copy { color: #777777 !important; opacity: 1; font-size: 0.9rem; }
 
-    /* Адаптивность */
     @media (max-width: 800px) {
       .bookhero__inner, .hero__inner { grid-template-columns: 1fr; text-align: center; }
       .book-item { flex-direction: column-reverse; text-align: center; }
       .book-item__cover { width: 140px; margin: 0 auto; }
       .story__foot { flex-direction: column; align-items: center; }
       .hero__title { font-size: 3rem; }
-      .books-list {
-        padding: 0 16px;
-      }
     }
     @media (max-width: 640px) {
       .prose { padding: 20px; }
       .hero__title { font-size: 2.6rem; }
     }
-    /* Бургер-меню для мобильных */
     .nav__burger {
       display: none; flex-direction: column; gap: 5px; background: none; border: none; cursor: pointer;
     }
@@ -374,139 +357,9 @@
       }
       .nav__links.is-open { opacity: 1; transform: none; pointer-events: auto; }
     }
-</style>
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90' fill='#aaa'>📖</text></svg>" />
-</head>
-<body data-author="boroma">
-  <header class="nav" id="nav">
-    <div class="nav__inner">
-      <a href="#hero" class="nav__logo">Денис Борома</a>
-      <button class="nav__burger" id="burger" aria-label="Меню" aria-expanded="false"><span></span><span></span><span></span></button>
-      <nav class="nav__links" id="navLinks">
-        <a href="#hero">Об авторе</a>
-        <a href="#books">Книги</a>
-        <a href="#contact">Контакты</a>
-      </nav>
-    </div>
-  </header>
+"""
 
-  <section class="hero" id="hero">
-    <div class="hero__inner" style="max-width:1120px; margin:0 auto; padding:40px 22px; display:grid; grid-template-columns:1fr 1fr; gap:40px; align-items:center;">
-      <div class="hero__text">
-        <p class="hero__eyebrow">Рассказы · этюды · баллады</p>
-        <h1 class="hero__title">Денис Борома</h1>
-        <div class="hero__cta" style="display:flex; gap:14px; margin:28px 0 0; flex-wrap:wrap;">
-          <a href="#books" class="btn btn--primary">Читать книги</a>
-          <a href="https://proza.ru/avtor/boroma" target="_blank" rel="noopener" class="btn btn--ghost">Проза.ру →</a>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section class="section" id="books">
-    <div class="section__head" style="text-align:center; margin-bottom:48px;">
-      <h2 class="section__title">Книги</h2>
-    </div>
-    <!-- ОБЕРТКА ДЛЯ КАРТОЧЕК: узкий центрированный контейнер -->
-    <!-- BOOKS_LIST_START -->
-
-    <div class="book-item">
-      <div class="book-item__info">
-        <h2 class="book-item__title">История светлых времён</h2>
-        <p class="book-item__desc">Оглядываясь в прошлое, можно ощутить яркую вспышку в начале времен, которая озаряет особое измерение, живущее своей собственной жизнью. Вдруг консервный нож разрезает привычную реальность, и новая, всегда бывшая рядом действительность заполняет всё вокруг, заставляя нас забыть себя и безрассудно броситься ей навстречу.</p>
-        <a href="books/istoriya-svetlyh-vremen.html" class="btn btn--primary">Читать →</a>
-      </div>
-      <div class="book-item__cover cover--1">
-        <span class="book__emoji">🥫</span>
-      </div>
-    </div>
-
-    <div class="book-item">
-      <div class="book-item__info">
-        <h2 class="book-item__title">Цикл «И пришёл Мессия»</h2>
-        <p class="book-item__desc">Философская притча о непостижимости искупительной жертвы и быстроте человеческой памяти, написанная в стилистике, сочетающей библейский пафос с ироническим налётом современности.</p>
-        <a href="books/story/i-prishel-messiya.html" class="btn btn--primary">Читать →</a>
-      </div>
-      <div class="book-item__cover cover--3">
-        <span class="book__emoji">🕯️</span>
-      </div>
-    </div>
-
-    <div class="book-item">
-      <div class="book-item__info">
-        <h2 class="book-item__title">Московские этюды</h2>
-        <p class="book-item__desc">Магический реализм, знакомый каждому москвичу.</p>
-        <a href="books/moskovskie-etyudy.html" class="btn btn--primary">Читать →</a>
-      </div>
-      <div class="book-item__cover cover--4">
-        <span class="book__emoji">🌆</span>
-      </div>
-    </div>
-
-    <div class="book-item">
-      <div class="book-item__info">
-        <h2 class="book-item__title">Баллада о Плане</h2>
-        <p class="book-item__desc">Исповедально-галлюцинаторная поэма про ссылку в место, забытое Богом, и прозябание среди кухонной грязи, блатного сленга и ЛАНГОЛЬЕРОВ, где действительность смешивается с безобразными видениями. Позор непальцу.</p>
-        <a href="books/story/ballada-o-plane.html" class="btn btn--primary">Читать →</a>
-      </div>
-      <div class="book-item__cover cover--2">
-        <span class="book__emoji">🌌</span>
-      </div>
-    </div>
-    <!-- BOOKS_LIST_END -->
-        <div class="book-item__cover cover--1">
-          <span class="book__emoji">🥫</span>
-        </div>
-      </div>
-
-      <div class="book-item">
-        <div class="book-item__info">
-          <h2 class="book-item__title">Цикл «И пришёл Мессия»</h2>
-          <p class="book-item__desc">Философская притча о непостижимости искупительной жертвы и быстроте человеческой памяти, написанная в стилистике, сочетающей библейский пафос с ироническим налётом современности.</p>
-          <a href="books/story/i-prishel-messiya.html" class="btn btn--primary">Читать →</a>
-        </div>
-        <div class="book-item__cover cover--3">
-          <span class="book__emoji">🕯️</span>
-        </div>
-      </div>
-
-      <div class="book-item">
-        <div class="book-item__info">
-          <h2 class="book-item__title">Московские этюды</h2>
-          <p class="book-item__desc">Магический реализм, знакомый каждому москвичу.</p>
-          <a href="books/moskovskie-etyudy.html" class="btn btn--primary">Читать →</a>
-        </div>
-        <div class="book-item__cover cover--4">
-          <span class="book__emoji">🌆</span>
-        </div>
-      </div>
-
-      <div class="book-item">
-        <div class="book-item__info">
-          <h2 class="book-item__title">Баллада о Плане</h2>
-          <p class="book-item__desc">Исповедально-галлюцинаторная поэма про ссылку в место, забытое Богом, и прозябание среди кухонной грязи, блатного сленга и ЛАНГОЛЬЕРОВ, где действительность смешивается с безобразными видениями. Позор непальцу.</p>
-          <a href="books/story/ballada-o-plane.html" class="btn btn--primary">Читать →</a>
-        </div>
-        <div class="book-item__cover cover--2">
-          <span class="book__emoji">🌌</span>
-        </div>
-      </div>
-
-    </div> <!-- конец .books-list -->
-  </section>
-
-  <section class="section contact" id="contact">
-    <div class="contact__card">
-      <h2 class="section__title">Связаться с автором</h2>
-      <p class="contact__lead">невозможно</p>
-    </div>
-  </section>
-
-  <footer class="footer">
-    <p class="footer__logo">Денис Борома</p>
-    <p class="footer__copy">© <span id="year"></span> Денис Борома. Все права защищены.</p>
-  </footer>
-  
+JS_BLOCK = """
 <script>
   (function() {
     // --- год в подвале ---
@@ -539,7 +392,7 @@
 
     // --- кнопка переключения автора (луна/солнце) ---
     var author = document.body.getAttribute('data-author') || 'boroma';
-    var inBooks = window.location.pathname.replace(/\\/g, '/').indexOf('/books/') !== -1;
+    var inBooks = window.location.pathname.replace(/\\\\/g, '/').indexOf('/books/') !== -1;
     var depth = inBooks ? (window.location.pathname.indexOf('/story/') !== -1 ? '../../' : '../') : './';
     var destUrl = author === 'boroma' ? depth + 'index.html' : depth + 'boroma.html';
     var destName = author === 'boroma' ? 'Владимир&nbsp;Русин' : 'Денис&nbsp;Борома';
@@ -591,51 +444,34 @@
       }, 60);
     }
     sessionStorage.removeItem('sw_portal');
-  })();
-</script>
 
-  <script>
-    document.querySelectorAll('[data-mail]').forEach(el => {
-      el.addEventListener('click', (e) => {
-        e.preventDefault();
-        window.location.href = 'mailto:boroma@example.com';
-      });
-    });
-  </script>
-
-<script>
-  // Подсветка активного пункта меню при прокрутке
-  (function() {
+    // --- Подсветка активного пункта меню при прокрутке (только если есть секции с id) ---
     var sections = document.querySelectorAll('section[id]');
-    var navLinks = document.querySelectorAll('.nav__links a');
-    if (!sections.length || !navLinks.length) return;
-
-    function setActiveLink() {
-      var scrollPos = window.scrollY + 100;
-      var activeId = null;
-
-      sections.forEach(function(section) {
-        var top = section.offsetTop;
-        var bottom = top + section.offsetHeight;
-        if (scrollPos >= top && scrollPos < bottom) {
-          activeId = section.getAttribute('id');
-        }
-      });
-
-      navLinks.forEach(function(link) {
-        var href = link.getAttribute('href');
-        if (href === '#' + activeId) {
-          link.classList.add('is-active');
-        } else {
-          link.classList.remove('is-active');
-        }
-      });
+    var navLinksForActive = document.querySelectorAll('.nav__links a');
+    if (sections.length && navLinksForActive.length) {
+      function setActiveLink() {
+        var scrollPos = window.scrollY + 100;
+        var activeId = null;
+        sections.forEach(function(section) {
+          var top = section.offsetTop;
+          var bottom = top + section.offsetHeight;
+          if (scrollPos >= top && scrollPos < bottom) {
+            activeId = section.getAttribute('id');
+          }
+        });
+        navLinksForActive.forEach(function(link) {
+          var href = link.getAttribute('href');
+          if (href === '#' + activeId) {
+            link.classList.add('is-active');
+          } else {
+            link.classList.remove('is-active');
+          }
+        });
+      }
+      window.addEventListener('scroll', setActiveLink);
+      window.addEventListener('resize', setActiveLink);
+      setActiveLink();
     }
-
-    window.addEventListener('scroll', setActiveLink);
-    window.addEventListener('resize', setActiveLink);
-    setActiveLink();
   })();
 </script>
-</body>
-</html>
+"""

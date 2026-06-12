@@ -143,7 +143,7 @@ var skipAnims = fromPortal || inPortalFrame;
 (function () {
   var author  = document.body.getAttribute("data-author") || "rusin";
   var inBooks = window.location.pathname.replace(/\\/g, "/").indexOf("/books/") !== -1;
-  var depth   = inBooks ? "../" : "./";
+  var depth = inBooks ? (window.location.pathname.indexOf('/story/') !== -1 ? '../../' : '../') : './';
 
   var destUrl  = author === "rusin" ? depth + "boroma.html" : depth + "index.html";
   var destName = author === "rusin" ? "Денис&nbsp;Борома" : "Владимир&nbsp;Русин";
