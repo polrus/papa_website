@@ -2,18 +2,16 @@
 <html lang="ru">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
   <title>Денис Борома — рассказы, этюды, баллады</title>
   <meta name="description" content="Рассказы, миниатюры, баллады и московские этюды Дениса Боромы. Современная русская литература." />
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&display=swap" rel="stylesheet" />
   <style>
-    #hero {
-      scroll-margin-top: 70px;
-    }
-
+    /* === ОСНОВНЫЕ СТИЛИ (без изменений) === */
+    #hero { scroll-margin-top: 70px; }
     body, body * { font-family: 'Cormorant Garamond', serif !important; }
     .card__emoji, .book__emoji, .float, .chip, .btn, .nav__burger span { font-family: inherit !important; }
-    
+
     body {
       --ink: #000000;
       --ash: #CCCCCC;
@@ -25,8 +23,8 @@
       overflow-x: hidden;
     }
 
-    .nav { 
-      background: var(--ink); 
+    .nav {
+      background: var(--ink);
       border-bottom: 1px dashed #333;
       position: sticky;
       top: 0;
@@ -73,12 +71,8 @@
       background-color: var(--ghost-white);
       transition: width 0.25s ease;
     }
-    .nav__links a.is-active::after {
-      width: 100%;
-    }
-    .nav__links a:hover::after {
-      width: 100%;
-    }
+    .nav__links a.is-active::after { width: 100%; }
+    .nav__links a:hover::after { width: 100%; }
     .nav__links a:hover {
       color: var(--ghost-white) !important;
       text-shadow: 0 0 8px rgba(255,255,255,0.7);
@@ -106,11 +100,9 @@
       box-shadow: 0 4px 12px rgba(0,0,0,0.3);
     }
     .switcher-btn:active { transform: translateY(0); }
-    .switcher-btn__icon svg {
-      stroke-width: 1.8;
-    }
+    .switcher-btn__icon svg { stroke-width: 1.8; }
 
-    .hero__title { 
+    .hero__title {
       background: none;
       color: var(--ghost-white) !important;
       font-size: 4.5rem;
@@ -170,13 +162,11 @@
       transform: translateY(-2px);
       box-shadow: 0 6px 14px rgba(0,0,0,0.3);
     }
-    .btn--ghost:active {
-      transform: translateY(0);
-    }
+    .btn--ghost:active { transform: translateY(0); }
 
     .section__kicker { color: #555 !important; font-weight: bold; text-transform: uppercase; }
     .section__title { color: var(--ghost-white) !important; }
-    
+
     .books-list {
       max-width: 800px;
       margin: 0 auto;
@@ -201,9 +191,7 @@
       border-color: #444;
       box-shadow: 0 0 15px rgba(255,255,255,0.1);
     }
-    .book-item__info {
-      flex: 1;
-    }
+    .book-item__info { flex: 1; }
     .book-item__title {
       font-size: 1.8rem;
       font-weight: 700;
@@ -211,10 +199,7 @@
       margin-bottom: 8px;
       text-shadow: 0 0 10px rgba(255,255,255,0.5), 2px 2px 0px #000;
     }
-    .book-item__desc {
-      color: #aeaeae !important;
-      margin-bottom: 20px;
-    }
+    .book-item__desc { color: #aeaeae !important; margin-bottom: 20px; }
     .book-item__cover {
       flex: 0 0 200px;
       aspect-ratio: 3/4;
@@ -233,14 +218,8 @@
       transition: transform 0.25s ease, box-shadow 0.25s ease;
       transform: scale(1.22);
     }
-    .book-item__cover:hover img {
-      transform: rotate(3deg) scale(1.26);
-    }
-    .book__emoji {
-      font-size: inherit;
-      filter: none;
-      opacity: 1;
-    }
+    .book-item__cover:hover img { transform: rotate(3deg) scale(1.26); }
+    .book__emoji { font-size: inherit; filter: none; opacity: 1; }
 
     .book-item__cover-link {
       display: flex;
@@ -251,7 +230,6 @@
       text-decoration: none;
       color: inherit;
     }
-
     .book-item__cover-link img,
     .book-item__cover-link .book__emoji {
       width: 100%;
@@ -273,19 +251,14 @@
       font-size: 3rem; overflow: hidden;
     }
     .bookhero__cover img {
-      width: 100%;
-      height: 100%;
-      object-fit: contain;
-      display: block;
+      width: 100%; height: 100%; object-fit: contain; display: block;
       transition: transform 0.25s ease, box-shadow 0.25s ease;
     }
     .bookhero__cover:hover img {
       transform: rotate(2deg) scale(1.02);
       box-shadow: 0 0 12px rgba(255,255,255,0.2);
     }
-    .bookhero__text .back-link {
-      display: inline-block; color: #888; margin-bottom: 10px;
-    }
+    .bookhero__text .back-link { display: inline-block; color: #888; margin-bottom: 10px; }
     .bookhero__text .back-link:hover { color: var(--ghost-white); }
     .bookhero__desc { color: #888; max-width: 52ch; margin: 12px 0 22px; font-size: 1.05rem; }
 
@@ -304,23 +277,16 @@
       font-size: 3rem; overflow: hidden;
     }
     .card__cover img {
-      width: 100%;
-      height: 100%;
-      object-fit: contain;
-      display: block;
+      width: 100%; height: 100%; object-fit: contain; display: block;
       transition: transform 0.25s ease, box-shadow 0.25s ease;
     }
-    .card__cover:hover img {
-      transform: rotate(2deg) scale(1.02);
-      box-shadow: 0 0 12px rgba(255,255,255,0.2);
-    }
+    .card__cover:hover img { transform: rotate(2deg) scale(1.02); box-shadow: 0 0 12px rgba(255,255,255,0.2); }
     .card__body { padding: 18px 20px 22px; }
     .card__title { font-size: 1.3rem; font-weight: 700; color: var(--ghost-white); margin-bottom: 6px; }
     .card__meta { color: #777; font-size: 0.8rem; text-transform: uppercase; margin-bottom: 10px; }
     .card__link { color: #aaa; font-weight: bold; }
     .card__link:hover { color: var(--ghost-white); }
 
-    /* Страница отдельного произведения */
     .story {
       max-width: 760px; margin: 0 auto; padding: 40px 22px;
     }
@@ -328,24 +294,14 @@
     .story__title { font-size: 2.2rem; font-weight: 700; color: var(--ghost-white); }
     .story__meta { color: #777; margin-top: 6px; }
     .story-cover {
-      max-width: 280px;
-      margin: 20px auto 30px;
-      aspect-ratio: 3/4;
-      background-color: #111;
-      border: 2px solid #333;
-      overflow: hidden;
+      max-width: 280px; margin: 20px auto 30px; aspect-ratio: 3/4;
+      background-color: #111; border: 2px solid #333; overflow: hidden;
     }
     .story-cover img {
-      width: 100%;
-      height: 100%;
-      object-fit: contain;
-      display: block;
+      width: 100%; height: 100%; object-fit: contain; display: block;
       transition: transform 0.25s ease, box-shadow 0.25s ease;
     }
-    .story-cover:hover img {
-      transform: rotate(2deg) scale(1.02);
-      box-shadow: 0 0 12px rgba(255,255,255,0.2);
-    }
+    .story-cover:hover img { transform: rotate(2deg) scale(1.02); box-shadow: 0 0 12px rgba(255,255,255,0.2); }
     .back-link { color: #888; text-decoration: none; display: inline-block; margin-bottom: 20px; }
     .back-link:hover { color: var(--ghost-white); }
     .prose {
@@ -357,16 +313,11 @@
       font-family: inherit; font-size: 3.4rem; float: left; padding: 6px 12px 0 0;
       color: #aaa; font-weight: bold;
     }
-    .prose--poetry p {
-      white-space: pre-wrap; font-family: 'Cormorant Garamond', serif;
-      margin-bottom: 0.5em;
-    }
+    .prose--poetry p { white-space: pre-wrap; font-family: 'Cormorant Garamond', serif; margin-bottom: 0.5em; }
     .prose--poetry p:first-child::first-letter {
       font: inherit; float: none; padding: 0; color: inherit; line-height: inherit;
     }
-    .story__foot {
-      margin-top: 40px; display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap;
-    }
+    .story__foot { margin-top: 40px; display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
 
     .quote {
       text-align: center; max-width: 820px; margin: 0 auto; padding: 60px 30px;
@@ -384,13 +335,11 @@
     .chip {
       background: #111 !important; color: #aaa !important; border: 1px solid #333 !important;
       border-radius: 0px !important; text-transform: uppercase; padding: 12px 24px;
-      font-weight: bold; transition: all 0.25s ease;
-      text-decoration: none;
+      font-weight: bold; transition: all 0.25s ease; text-decoration: none;
     }
     .chip:hover {
       background: var(--ghost-white) !important; color: var(--ink) !important;
-      transform: translateY(-2px);
-      box-shadow: 0 6px 14px rgba(0,0,0,0.3);
+      transform: translateY(-2px); box-shadow: 0 6px 14px rgba(0,0,0,0.3);
     }
 
     .footer {
@@ -407,13 +356,8 @@
       .book-item__cover { width: 140px; margin: 0 auto; }
       .story__foot { flex-direction: column; align-items: center; }
       .hero__title { font-size: 3rem; }
-      .books-list {
-        padding: 0 16px;
-      }
-      .switcher-btn {
-        margin-left: auto;
-        margin-right: auto;
-      }
+      .books-list { padding: 0 16px; }
+      .switcher-btn { margin-left: auto; margin-right: auto; }
     }
     @media (max-width: 640px) {
       .prose { padding: 20px; }
@@ -433,6 +377,157 @@
         z-index: 100;
       }
       .nav__links.is-open { opacity: 1; transform: none; pointer-events: auto; }
+    }
+
+    /* ===== НОВЫЕ СТИЛИ ВИДЖЕТА ===== */
+    .hero__widget {
+      display: flex;
+      flex-direction: row;
+      gap: 28px;
+      align-items: flex-start;
+      color: var(--ghost-white);
+    }
+
+    .calendar {
+      background: rgba(255,255,255,0.02);
+      border: 1px solid #2a2a2a;
+      padding: 18px 16px;
+      min-width: 300px;
+      box-shadow: 3px 3px 0 #111;
+    }
+    .calendar__header {
+      text-align: center;
+      margin-bottom: 16px;
+    }
+    .calendar__month-year {
+      font-size: 1.2rem;
+      text-transform: lowercase;
+      letter-spacing: 1px;
+      color: #aaa;
+      font-weight: 600;
+    }
+    .calendar__table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    .calendar__table th {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      color: #666;
+      padding: 6px 0;
+      font-weight: 400;
+      letter-spacing: 1px;
+    }
+    .calendar__table td {
+      text-align: center;
+      padding: 4px 0;
+      font-size: 1.1rem;
+      color: #bbb;
+      transition: color 0.1s, background 0.1s;
+    }
+    .calendar__cell {
+      display: inline-block;
+      width: 32px;
+      height: 32px;
+      line-height: 32px;
+      border-radius: 50%;
+      transition: background 0.15s, color 0.15s;
+    }
+    .calendar__cell--today {
+      background: #fff;
+      color: #000;
+      font-weight: 700;
+      box-shadow: 0 0 8px rgba(255,255,255,0.3);
+    }
+    .calendar__cell--scramble {
+      color: #ddd;
+    }
+
+    .clock {
+      font-size: 2.2rem;
+      font-weight: 600;
+      letter-spacing: 2px;
+      font-variant-numeric: tabular-nums;
+      background: #0a0a0a;
+      padding: 12px 20px;
+      border: 1px solid #2a2a2a;
+      text-align: center;
+      text-shadow: 0 0 10px rgba(255,255,255,0.5);
+      min-width: 140px;
+    }
+
+    .reset-btn-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+      margin-top: 20px;
+    }
+    .reset-btn {
+      position: relative;
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      outline: none;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .reset-btn:active { transform: scale(0.96); }
+    .progress-ring {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+    }
+    .progress-ring__bg {
+      stroke: #222;
+    }
+    .progress-ring__circle {
+      stroke: #ffffff;
+      transition: stroke-dashoffset 0.05s linear;
+      transform: rotate(-90deg);
+      transform-origin: 50% 50%;
+    }
+    .reset-btn__text {
+      position: relative;
+      z-index: 1;
+      font-size: 2rem;
+      color: #fff;
+      line-height: 1;
+      user-select: none;
+    }
+    .reset-btn__label {
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: #888;
+      max-width: 100px;
+      text-align: center;
+    }
+
+    .hero__widget-right {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    @media (max-width: 800px) {
+      .hero__widget {
+        flex-direction: column;
+        align-items: center;
+      }
+      .calendar {
+        min-width: auto;
+        width: 100%;
+        max-width: 360px;
+      }
     }
   </style>
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90' fill='#aaa'>📖</text></svg>" />
@@ -460,6 +555,33 @@
           <a href="https://proza.ru/avtor/boroma" target="_blank" rel="noopener" class="btn btn--ghost">Проза.ру →</a>
         </div>
       </div>
+      <!-- ВИДЖЕТ -->
+      <div class="hero__widget">
+        <div class="calendar">
+          <div class="calendar__header">
+            <span class="calendar__month-year">июнь 2026</span>
+          </div>
+          <table class="calendar__table">
+            <thead>
+              <tr><th>пн</th><th>вт</th><th>ср</th><th>чт</th><th>пт</th><th>сб</th><th>вс</th></tr>
+            </thead>
+            <tbody id="cal-body"></tbody>
+          </table>
+        </div>
+        <div class="hero__widget-right">
+          <div class="clock">00:00:00</div>
+          <div class="reset-btn-container">
+            <button class="reset-btn" aria-label="Перезапуск цикла">
+              <svg class="progress-ring" viewBox="0 0 64 64" width="64" height="64">
+                <circle class="progress-ring__bg" cx="32" cy="32" r="28" fill="none" stroke-width="4"/>
+                <circle class="progress-ring__circle" cx="32" cy="32" r="28" fill="none" stroke-width="4" stroke-linecap="round" stroke-dasharray="175.93 175.93" stroke-dashoffset="175.93"/>
+              </svg>
+              <span class="reset-btn__text">⟳</span>
+            </button>
+            <div class="reset-btn__label">Перезапуск цикла</div>
+          </div>
+        </div>
+      </div>
     </div>
   </section>
 
@@ -468,7 +590,6 @@
       <h2 class="section__title">Книги</h2>
     </div>
     <!-- BOOKS_LIST_START -->
-
     <div class="book-item">
       <div class="book-item__info">
         <h2 class="book-item__title">История светлых времён</h2>
@@ -479,7 +600,6 @@
         <a href="books/istoriya-svetlyh-vremen.html" class="book-item__cover-link"><img src="pictures/boroma/istoriya-svetlyh-vremen.png" alt="История светлых времён"></a>
       </div>
     </div>
-
     <div class="book-item">
       <div class="book-item__info">
         <h2 class="book-item__title">Цикл «И пришёл Мессия»</h2>
@@ -490,7 +610,6 @@
         <a href="books/story/i-prishel-messiya.html" class="book-item__cover-link"><span class="book__emoji">🕯️</span></a>
       </div>
     </div>
-
     <div class="book-item">
       <div class="book-item__info">
         <h2 class="book-item__title">Московские этюды</h2>
@@ -501,7 +620,6 @@
         <a href="books/moskovskie-etyudy.html" class="book-item__cover-link"><span class="book__emoji">🌆</span></a>
       </div>
     </div>
-
     <div class="book-item">
       <div class="book-item__info">
         <h2 class="book-item__title">Баллада о Плане</h2>
@@ -515,26 +633,14 @@
     <!-- BOOKS_LIST_END -->
   </section>
 
-  <!-- QUOTE_START -->
-  <section class="quote">
-    <p class="quote__mark">“</p>
-    <blockquote>Дети идут рядом и держат за руку.<br>Ты думаешь: вот пройдём этот квартал — и всё наладится.<br>Но кварталы тянутся бесконечно, а сумерки сгущаются.</blockquote>
-    <p class="quote__author">— «Прогулка с детьми»</p>
-  </section>
-    <!-- QUOTE_END -->
-
   <!-- CONTACT_START -->
   <section class="section contact" id="contact">
     <div class="contact__card">
       <h2 class="section__title">Связаться с автором</h2>
-      <p class="contact__lead">По всем вопросам — через форму на Проза.ру или электронную почту.</p>
-      <div class="contact__links">
-        <a href="https://proza.ru/avtor/boroma" target="_blank" class="chip">Проза.ру</a>
-        <a href="#" class="chip" data-mail="boroma">Написать письмо</a>
-      </div>
+      <p class="contact__lead">невозможно...</p>
     </div>
   </section>
-    <!-- CONTACT_END -->
+  <!-- CONTACT_END -->
 
   <footer class="footer">
     <p class="footer__logo">Денис Борома</p>
@@ -656,7 +762,6 @@
       function setActiveLink() {
         var scrollPos = window.scrollY + 100;
         var activeId = null;
-
         sections.forEach(function(section) {
           var top = section.offsetTop;
           var bottom = top + section.offsetHeight;
@@ -664,7 +769,6 @@
             activeId = section.getAttribute('id');
           }
         });
-
         navLinks.forEach(function(link) {
           var href = link.getAttribute('href');
           if (href === '#' + activeId) {
@@ -678,6 +782,256 @@
       window.addEventListener('scroll', setActiveLink);
       window.addEventListener('resize', setActiveLink);
       setActiveLink();
+    })();
+  </script>
+
+  <!-- ===== СКРИПТ ВИДЖЕТА ПЕРЕЗАПУСКА ЦИКЛА ===== -->
+  <script>
+    (function() {
+      const widget = document.querySelector('.hero__widget');
+      if (!widget) return;
+
+      // Элементы
+      const monthYearEl = widget.querySelector('.calendar__month-year');
+      const calBody = document.getElementById('cal-body');
+      const clockEl = widget.querySelector('.clock');
+      const resetBtn = widget.querySelector('.reset-btn');
+      const progressCircle = widget.querySelector('.progress-ring__circle');
+
+      const HOLD_DURATION = 1500; // мс до полного заполнения шкалы
+      const TARGET_DATE = new Date(2026, 5, 16, 0, 0, 0, 0); // 16 июня 2026, 00:00:00
+      const TARGET_MONTH = 5;     // июнь
+      const TARGET_DAY = 16;
+      const MONTHS = ['января','февраля','марта','апреля','мая','июня','июля','августа','сентября','октября','ноября','декабря'];
+
+      // Состояние времени
+      let baseDisplayDate = new Date();   // виртуальное время
+      let baseRealTime = Date.now();      // момент, когда baseDisplayDate был актуален
+
+      // Удержание
+      let isHolding = false;
+      let holdProgress = -1;             // -1 когда не активно, 0..1 во время удержания
+      let holdStartTime = null;         // performance.now
+      let holdStartDate = null;         // Date на момент начала удержания
+      let animationFrame = null;
+
+      // Календарные ячейки (42 шт)
+      const CELLS = [];
+      const ROWS = 6;
+      const COLS = 7;
+
+      // Данные для случайной замены
+      let cellThresholds = [];          // пороги для каждой ячейки (0..1)
+      let cellInitialValues = [];       // исходные числа (строки или '')
+
+      // Построение таблицы
+      function buildCalendarBody() {
+        calBody.innerHTML = '';
+        CELLS.length = 0;
+        for (let r = 0; r < ROWS; r++) {
+          const tr = document.createElement('tr');
+          for (let c = 0; c < COLS; c++) {
+            const td = document.createElement('td');
+            const span = document.createElement('span');
+            span.className = 'calendar__cell';
+            td.appendChild(span);
+            tr.appendChild(td);
+            CELLS.push(span);
+          }
+          calBody.appendChild(tr);
+        }
+      }
+      buildCalendarBody();
+
+      // --- Вспомогательные функции ---
+      function getDisplayTime() {
+        const now = Date.now();
+        if (isHolding && holdProgress >= 0) {
+          const progress = Math.min(holdProgress, 1);
+          return new Date(holdStartDate.getTime() + (TARGET_DATE.getTime() - holdStartDate.getTime()) * progress);
+        }
+        // Обычный ход
+        return new Date(baseDisplayDate.getTime() + (now - baseRealTime));
+      }
+
+      function updateClock(date) {
+        const hh = String(date.getHours()).padStart(2, '0');
+        const mm = String(date.getMinutes()).padStart(2, '0');
+        const ss = String(date.getSeconds()).padStart(2, '0');
+        clockEl.textContent = `${hh}:${mm}:${ss}`;
+      }
+
+      function updateCalendar(date, scrambleProgress = -1) {
+        // date - текущее отображаемое виртуальное время
+        if (scrambleProgress >= 0) {
+          // Режим перемотки: месяц и год плавно меняются к TARGET_DATE
+          const displayDate = new Date(holdStartDate.getTime() + (TARGET_DATE.getTime() - holdStartDate.getTime()) * scrambleProgress);
+          const monthIndex = displayDate.getMonth();
+          const year = displayDate.getFullYear();
+          monthYearEl.textContent = `${MONTHS[monthIndex]} ${year}`;
+
+          CELLS.forEach((cell, i) => {
+            cell.classList.remove('calendar__cell--today');
+            if (cellThresholds[i] !== undefined && scrambleProgress >= cellThresholds[i]) {
+              cell.textContent = TARGET_DAY;
+              cell.classList.add('calendar__cell--scramble');
+            } else {
+              cell.textContent = cellInitialValues[i] || '';
+              cell.classList.add('calendar__cell--scramble');
+            }
+          });
+        } else {
+          // Нормальный режим: реальный календарь для текущей виртуальной даты
+          const month = date.getMonth();
+          const year = date.getFullYear();
+          monthYearEl.textContent = `${MONTHS[month]} ${year}`;
+
+          const firstDay = new Date(year, month, 1).getDay(); // 0 вс, 1 пн ... 6 сб
+          const daysInMonth = new Date(year, month + 1, 0).getDate();
+          let startOffset = (firstDay === 0) ? 6 : firstDay - 1;
+
+          for (let i = 0; i < CELLS.length; i++) {
+            const cell = CELLS[i];
+            cell.classList.remove('calendar__cell--scramble', 'calendar__cell--today');
+            const dayNum = i - startOffset + 1;
+            if (dayNum >= 1 && dayNum <= daysInMonth) {
+              cell.textContent = dayNum;
+              // Выделяем сегодняшнюю дату (виртуальную)
+              if (dayNum === date.getDate() && month === date.getMonth() && year === date.getFullYear()) {
+                cell.classList.add('calendar__cell--today');
+              }
+            } else {
+              cell.textContent = '';
+            }
+          }
+        }
+      }
+
+      function render() {
+        const displayDate = getDisplayTime();
+        updateClock(displayDate);
+        const scramble = (isHolding && holdProgress >= 0) ? holdProgress : -1;
+        updateCalendar(displayDate, scramble);
+      }
+
+      // --- Управление кольцом прогресса ---
+      function updateProgressRing(value) {
+        const radius = 28;
+        const circumference = 2 * Math.PI * radius;
+        const offset = circumference * (1 - value);
+        progressCircle.style.strokeDasharray = `${circumference} ${circumference}`;
+        progressCircle.style.strokeDashoffset = offset;
+      }
+
+      // Подготовка к началу удержания
+      function prepareScramble() {
+        // Сохраняем начальные числа из ячеек (на момент старта удержания)
+        cellInitialValues = CELLS.map(cell => cell.textContent.trim());
+        // Генерируем пороги для каждой ячейки (только для тех, где есть число)
+        cellThresholds = CELLS.map((cell, i) => {
+          if (cellInitialValues[i] !== '') {
+            return Math.random(); // случайный порог от 0 до 1
+          } else {
+            return undefined; // пустые ячейки не участвуют
+          }
+        });
+      }
+
+      // Сброс удержания (отпустили раньше)
+      function resetHold() {
+        // Фиксируем текущее состояние как новое базовое время
+        const now = Date.now();
+        baseDisplayDate = getDisplayTime(); // последнее отображаемое значение
+        baseRealTime = now;
+        isHolding = false;
+        holdProgress = -1;
+        updateProgressRing(0);
+        holdStartTime = null;
+        holdStartDate = null;
+        cellThresholds = [];
+        cellInitialValues = [];
+        if (animationFrame) {
+          cancelAnimationFrame(animationFrame);
+          animationFrame = null;
+        }
+        render();
+      }
+
+      // Завершение удержания (шкала заполнена)
+      function completeHold() {
+        const now = Date.now();
+        baseDisplayDate = new Date(TARGET_DATE);
+        baseRealTime = now;
+        isHolding = false;
+        holdProgress = -1;
+        updateProgressRing(1);
+        updateProgressRing(0);
+        holdStartTime = null;
+        holdStartDate = null;
+        cellThresholds = [];
+        cellInitialValues = [];
+        if (animationFrame) {
+          cancelAnimationFrame(animationFrame);
+          animationFrame = null;
+        }
+        render();
+      }
+
+      // Шаг анимации удержания
+      function holdStep(timestamp) {
+        if (!isHolding) return;
+        const elapsed = timestamp - holdStartTime;
+        holdProgress = Math.min(elapsed / HOLD_DURATION, 1);
+        updateProgressRing(holdProgress);
+        render();
+
+        if (holdProgress >= 1) {
+          completeHold();
+          return;
+        }
+        animationFrame = requestAnimationFrame(holdStep);
+      }
+
+      // Обработчики событий кнопки
+      function onPointerDown(e) {
+        e.preventDefault();
+        if (isHolding) return;
+        // Синхронизируем базовое время с текущим виртуальным
+        const now = Date.now();
+        baseDisplayDate = getDisplayTime();
+        baseRealTime = now;
+        holdStartDate = new Date(baseDisplayDate); // копия
+        isHolding = true;
+        holdStartTime = performance.now();
+        holdProgress = 0;
+        updateProgressRing(0);
+        prepareScramble();
+        animationFrame = requestAnimationFrame(holdStep);
+      }
+
+      function onPointerUp(e) {
+        if (!isHolding) return;
+        if (holdProgress < 1) {
+          resetHold();
+        }
+      }
+
+      resetBtn.addEventListener('pointerdown', onPointerDown);
+      resetBtn.addEventListener('pointerup', onPointerUp);
+      resetBtn.addEventListener('pointerleave', onPointerUp);
+      resetBtn.addEventListener('pointercancel', onPointerUp);
+      resetBtn.addEventListener('contextmenu', e => e.preventDefault());
+
+      // Обычный интервал для обновления времени (когда не идёт удержание)
+      setInterval(() => {
+        if (!isHolding) {
+          render();
+        }
+      }, 200);
+
+      // Первичная отрисовка
+      updateProgressRing(0);
+      render();
     })();
   </script>
 </body>
