@@ -1,10 +1,10 @@
-from boroma_templates import SECTION_INFO, BOROMA_CSS, JS_BLOCK
-
 import html
 import os
 import re
 import shutil
 from collections import OrderedDict
+
+from boroma_templates import SECTION_INFO, BOROMA_CSS, JS_BLOCK
 
 # ---------- Конфигурация ----------
 ROOT = os.path.dirname(os.path.abspath(__file__))
@@ -12,6 +12,8 @@ SRC_TXT = os.path.join(ROOT, "books", "denis_boroma_vsyakoe.txt")
 BOOKS_DIR = os.path.join(ROOT, "books")
 STORY_DIR = os.path.join(BOOKS_DIR, "story")
 HOMEPAGE = os.path.join(ROOT, "boroma.html")
+
+PICTURES_ROOT = os.path.join(ROOT, "pictures", "boroma")
 
 def slugify(text):
     text = text.lower().strip()
@@ -33,6 +35,14 @@ def slugify(text):
     slug = ''.join(result)
     slug = re.sub(r'-+', '-', slug).strip('-')
     return slug
+
+def get_image_path(identifier):
+    """Вернуть URL картинки относительно корня сайта или None."""
+    for ext in ('.jpg', '.jpeg', '.png'):
+        img_path = os.path.join(PICTURES_ROOT, f"{identifier}{ext}")
+        if os.path.exists(img_path):
+            return f"pictures/boroma/{identifier}{ext}"
+    return None
 
 def parse_txt():
     with open(SRC_TXT, encoding='utf-8') as f:
@@ -98,7 +108,6 @@ def get_kind(section_key):
         "МОСКОВСКИЕ ЭТЮДЫ": "этюд"
     }
     return kinds.get(section_key, "произведение")
-
 
 def render_story_page(story, slug, kind, emoji, is_single):
     is_ballad = (kind == 'баллада')
@@ -176,9 +185,17 @@ def render_book_page(section_key, stories):
     for story in stories:
         story_slug = slugify(story['title'])
         date = story['date'] if story['date'] else 'без даты'
+        
+        # Изображение для карточки рассказа
+        img_url = get_image_path(story_slug)
+        if img_url:
+            cover_html = f'<img src="../{img_url}" alt="{html.escape(story["title"])}">'
+        else:
+            cover_html = f'<span class="card__emoji">{emoji}</span>'
+        
         card = f'''      <article class="card">
         <a class="card__cover" href="story/{story_slug}.html">
-          <span class="card__emoji">{emoji}</span>
+          {cover_html}
         </a>
         <div class="card__body">
           <h3 class="card__title">{html.escape(story['title'])}</h3>
@@ -188,6 +205,13 @@ def render_book_page(section_key, stories):
       </article>'''
         cards.append(card)
     cards_html = '\n\n'.join(cards)
+    
+    # Изображение для обложки сборника
+    book_img = get_image_path(slug)
+    if book_img:
+        hero_cover_html = f'<img src="../{book_img}" alt="{html.escape(title)}">'
+    else:
+        hero_cover_html = f'<span class="book__emoji">{emoji}</span>'
     
     content = f'''<!DOCTYPE html>
 <html lang="ru">
@@ -215,7 +239,7 @@ def render_book_page(section_key, stories):
   <section class="bookhero">
     <div class="bookhero__inner">
       <div class="bookhero__cover {info['cover_class']}">
-        <span class="book__emoji">{emoji}</span>
+        {hero_cover_html}
       </div>
       <div class="bookhero__text">
         <a class="back-link" href="../boroma.html">← Все книги</a>
@@ -255,11 +279,24 @@ def render_books_list(grouped_items):
         desc = info['desc']
         emoji = info['emoji']
         cover_class = info['cover_class']
+        slug = info['slug']
         if len(stories) == 1:
             story_slug = slugify(stories[0]['title'])
             link = f"books/story/{story_slug}.html"
         else:
-            link = f"books/{info['slug']}.html"
+            link = f"books/{slug}.html"
+        
+        # Изображение для книги на главной
+        img_url = get_image_path(slug)
+        link = f"books/story/{story_slug}.html" if len(stories) == 1 else f"books/{slug}.html"
+
+        if img_url:
+            cover_content = f'<img src="{img_url}" alt="{html.escape(title)}">'
+        else:
+            cover_content = f'<span class="book__emoji">{emoji}</span>'
+
+        cover_html = f'<a href="{link}" class="book-item__cover-link">{cover_content}</a>'
+        
         book_items.append(f'''
     <div class="book-item">
       <div class="book-item__info">
@@ -268,7 +305,7 @@ def render_books_list(grouped_items):
         <a href="{link}" class="btn btn--primary">Читать →</a>
       </div>
       <div class="book-item__cover {cover_class}">
-        <span class="book__emoji">{emoji}</span>
+        {cover_html}
       </div>
     </div>''')
     return '\n'.join(book_items)
@@ -302,6 +339,7 @@ def update_homepage_blocks(grouped_items):
     with open(HOMEPAGE, 'r', encoding='utf-8') as f:
         content = f.read()
     
+    # Убедимся, что маркеры существуют
     if '<!-- BOOKS_LIST_START -->' not in content:
         print("Маркеры не найдены. Добавляю автоматически...")
         books_section_pattern = r'(<section class="section" id="books">.*?)(<div class="books-list">.*?</div>)(.*?</section>)'
@@ -369,7 +407,6 @@ def main():
             f.write(render_book_page(sec, sec_stories))
         print(f"  Страница сборника: {SECTION_INFO[sec]['slug']}.html")
     
-    # Формируем список книг в порядке SECTION_INFO
     ordered_grouped_items = [(sec, grouped[sec]) for sec in SECTION_INFO.keys() if sec in grouped]
     success = update_homepage_blocks(ordered_grouped_items)
     if success:
