@@ -126,6 +126,9 @@ def render_story_page(story, slug, kind, emoji, is_single):
         back_link = f'<a class="back-link" href="../../books/{book_slug}.html">← {html.escape(SECTION_INFO[story["section"]]["title"])}</a>'
         foot_link = f'<a class="btn btn--ghost" href="../../books/{book_slug}.html">← Ко всем {kind}ам</a>'
     
+    lamp_off_url = "/pictures/boroma/lamp-off.png"
+    lamp_on_url  = "/pictures/boroma/lamp-on.png"
+
     content = f'''<!DOCTYPE html>
 <html lang="ru">
 <head>
@@ -156,7 +159,14 @@ def render_story_page(story, slug, kind, emoji, is_single):
       <h1 class="story__title">{html.escape(story['title'])}</h1>
       <p class="story__meta">{kind} · {story['date']}</p>
     </div>
-    {body}
+
+    <div class="story-text-holder">
+      <button class="lamp-toggle" data-off="../../{lamp_off_url}" data-on="../../{lamp_on_url}">
+        <img src="../../{lamp_off_url}" alt="Переключить тему текста">
+      </button>
+      {body}
+    </div>
+
     <div class="story__foot">
       {foot_link}
       <a class="btn btn--ghost" href="{story['url']}" target="_blank" rel="noopener">Оригинал на Проза.ру ↗</a>

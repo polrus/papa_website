@@ -96,7 +96,7 @@ body { --ink: #000000; --ash: #CCCCCC; --ghost-white: #FFFFFF; background-color:
 .story-cover:hover img { transform: rotate(3deg) scale(1.16); }
 .back-link { color: #888; text-decoration: none; display: inline-block; margin-bottom: 20px; }
 .back-link:hover { color: var(--ghost-white); }
-.prose { background: #0a0a0a; border: 1px solid #222; padding: 32px 40px; box-shadow: 5px 5px 0px #111; }
+.prose { background: #0a0a0a; border: 1px solid #222; padding: 64px 32px 40px; box-shadow: 5px 5px 0px #111; }
 .prose p { font-size: 1.12rem; line-height: 1.6; margin-bottom: 1.2em; color: #ccc; }
 .prose p:first-child::first-letter { font-family: inherit; font-size: 3.4rem; float: left; padding: 6px 12px 0 0; color: #aaa; font-weight: bold; }
 .prose--poetry p { white-space: pre-wrap; font-family: 'Cormorant Garamond', serif; margin-bottom: 0.5em; }
@@ -119,6 +119,54 @@ body { --ink: #000000; --ash: #CCCCCC; --ghost-white: #FFFFFF; background-color:
 .nav__burger { display: none; flex-direction: column; gap: 5px; background: none; border: none; cursor: pointer; }
 .nav__burger span { width: 26px; height: 0.5px; background: #ccc; transition: 0.2s; }
 @media (max-width: 820px) { .nav__burger { display: flex; } .nav__links { position: absolute; top: 100%; right: 0; left: 0; flex-direction: column; background: #000; padding: 20px; gap: 14px; transform: translateY(-12px); opacity: 0; pointer-events: none; transition: 0.25s; z-index: 100; } .nav__links.is-open { opacity: 1; transform: none; pointer-events: auto; } }
+
+/* Контейнер для текста истории с позиционированием лампочки */
+.story-text-holder {
+  position: relative;
+  margin: 2rem 0;
+}
+
+/* Лампочка-переключатель */
+.lamp-toggle {
+  position: absolute;
+  top: 0px;
+  right: 40px;
+  width: 96px;
+  height: 96px;
+  cursor: pointer;
+  z-index: 10;
+  transition: transform 0.2s ease;
+  background: transparent;
+  border: none;
+  padding: 0;
+}
+.lamp-toggle:hover {
+  transform: translateY(3px) scale(1.06);
+}
+.lamp-toggle img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+}
+
+/* Светлая тема для блока текста (проза или поэзия) */
+.prose.light-mode,
+.prose--poetry.light-mode {
+  background: #fefefe;
+  color: #111;
+  border-color: #ccc;
+}
+.prose.light-mode p,
+.prose--poetry.light-mode p {
+  color: #111;
+}
+.prose.light-mode p:first-child::first-letter {
+  color: #555;
+}
+.prose--poetry.light-mode p:first-child::first-letter {
+  color: inherit;
+}
 """
 
 JS_BLOCK = """
@@ -258,5 +306,42 @@ JS_BLOCK = """
     window.addEventListener('resize', setActiveLink);
     setActiveLink();
   })();
+
+// Переключение темы текста на страницах историй
+// Переключение светлой/тёмной темы текста через лампочку
+(function() {
+  var lamp = document.querySelector('.lamp-toggle');
+  if (!lamp) return;
+  var prose = document.querySelector('.prose, .prose--poetry');
+  if (!prose) return;
+
+  var lampOffSrc = lamp.getAttribute('data-off');
+  var lampOnSrc  = lamp.getAttribute('data-on');
+  var storageKey = 'boroma_story_theme';
+  var saved = localStorage.getItem(storageKey);
+
+  function setTheme(isLight) {
+    if (isLight) {
+      prose.classList.add('light-mode');
+      if (lampOnSrc) lamp.querySelector('img').src = lampOnSrc;
+    } else {
+      prose.classList.remove('light-mode');
+      if (lampOffSrc) lamp.querySelector('img').src = lampOffSrc;
+    }
+  }
+
+  // Применить сохранённую тему
+  if (saved === 'light') {
+    setTheme(true);
+  } else {
+    setTheme(false);
+  }
+
+  lamp.addEventListener('click', function() {
+    var willBeLight = !prose.classList.contains('light-mode');
+    setTheme(willBeLight);
+    localStorage.setItem(storageKey, willBeLight ? 'light' : 'dark');
+  });
+})();
 </script>
 """

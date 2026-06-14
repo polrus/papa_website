@@ -70,7 +70,7 @@ body { --ink: #000000; --ash: #CCCCCC; --ghost-white: #FFFFFF; background-color:
 .story-cover:hover img { transform: rotate(3deg) scale(1.16); }
 .back-link { color: #888; text-decoration: none; display: inline-block; margin-bottom: 20px; }
 .back-link:hover { color: var(--ghost-white); }
-.prose { background: #0a0a0a; border: 1px solid #222; padding: 32px 40px; box-shadow: 5px 5px 0px #111; }
+.prose { background: #0a0a0a; border: 1px solid #222; padding: 64px 32px 40px; box-shadow: 5px 5px 0px #111; }
 .prose p { font-size: 1.12rem; line-height: 1.6; margin-bottom: 1.2em; color: #ccc; }
 .prose p:first-child::first-letter { font-family: inherit; font-size: 3.4rem; float: left; padding: 6px 12px 0 0; color: #aaa; font-weight: bold; }
 .prose--poetry p { white-space: pre-wrap; font-family: 'Cormorant Garamond', serif; margin-bottom: 0.5em; }
@@ -93,6 +93,54 @@ body { --ink: #000000; --ash: #CCCCCC; --ghost-white: #FFFFFF; background-color:
 .nav__burger { display: none; flex-direction: column; gap: 5px; background: none; border: none; cursor: pointer; }
 .nav__burger span { width: 26px; height: 0.5px; background: #ccc; transition: 0.2s; }
 @media (max-width: 820px) { .nav__burger { display: flex; } .nav__links { position: absolute; top: 100%; right: 0; left: 0; flex-direction: column; background: #000; padding: 20px; gap: 14px; transform: translateY(-12px); opacity: 0; pointer-events: none; transition: 0.25s; z-index: 100; } .nav__links.is-open { opacity: 1; transform: none; pointer-events: auto; } }
+
+/* Контейнер для текста истории с позиционированием лампочки */
+.story-text-holder {
+  position: relative;
+  margin: 2rem 0;
+}
+
+/* Лампочка-переключатель */
+.lamp-toggle {
+  position: absolute;
+  top: 0px;
+  right: 40px;
+  width: 96px;
+  height: 96px;
+  cursor: pointer;
+  z-index: 10;
+  transition: transform 0.2s ease;
+  background: transparent;
+  border: none;
+  padding: 0;
+}
+.lamp-toggle:hover {
+  transform: translateY(3px) scale(1.06);
+}
+.lamp-toggle img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+}
+
+/* Светлая тема для блока текста (проза или поэзия) */
+.prose.light-mode,
+.prose--poetry.light-mode {
+  background: #fefefe;
+  color: #111;
+  border-color: #ccc;
+}
+.prose.light-mode p,
+.prose--poetry.light-mode p {
+  color: #111;
+}
+.prose.light-mode p:first-child::first-letter {
+  color: #555;
+}
+.prose--poetry.light-mode p:first-child::first-letter {
+  color: inherit;
+}
 </style>
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90' fill='#aaa'>📖</text></svg>" />
 </head>
@@ -116,7 +164,12 @@ body { --ink: #000000; --ash: #CCCCCC; --ghost-white: #FFFFFF; background-color:
       <h1 class="story__title">Ты опозорил свой Непал</h1>
       <p class="story__meta">рассказ · 09.05.2022</p>
     </div>
-    <div class="prose">
+
+    <div class="story-text-holder">
+      <button class="lamp-toggle" data-off="../..//pictures/boroma/lamp-off.png" data-on="../..//pictures/boroma/lamp-on.png">
+        <img src="../..//pictures/boroma/lamp-off.png" alt="Переключить тему текста">
+      </button>
+      <div class="prose">
       <p>Это был один из многих ничем не примечательных дней, один из таких, которые осенней дождливой вереницей тянутся бесконечно долго, следуя друг за другом, сменяя друг друга по заранее кем-то назначенному правилу, и кажется, что так было всегда, и что не будет конца этой веренице. Дни уходят незаметно, но не исчезают окончательно, они хранятся где-то, как плотно прижатые друг к другу листы исписанной кем-то бумаги, огромными стопками, то здесь, то там разбросанными в пыльной библиотеке, а некоторые из них собраны как пробитые, уже отоваренные, кассовые чеки на длинной и острой, отполированной до блеска металлической спице*.</p>
       <p>Острая игла времени навсегда фиксирует их, и вот они уже выцветшие и нечитаемые нанизаны вместе с себе подобными и плотно прижаты друг к другу. Их много таких совершенно одинаковых дней, дней-чеков, дней-купонов, и все они одинаково незначительные, пока не начнешь их читать, но на них напечатано обычно так мелко, что все сливается, и уже не отличишь предыдущий день от последующего.</p>
       <p>И этот осенний день был бы именно таким, и стал бы навсегда потерянным, в сырой осени, в непрерывно и медленно падающих листьях, в глубоких бездонных лужах, в каплях теплого, пока еще теплого дождя. Если бы не какое-то, возможно, на первый взгляд, совсем незначительное событие, вдруг не выбилось из общей равномерности потока, и мы уже не можем не запомнить этот день, на спицу времени он попадает своей оборотной стороной, лицом к нам. Конечно, мы можем с течением времени забыть и его подробности тоже, но ощущать будем всегда, что где-то прочный металл с трудом сдерживает скрытый смысл пережитого нами, и день продолжает существовать в своем особом измерении, которое так близко, что можно к нему легко прикоснутся, и сущность его проснется и вернется к жизни от этого легкого прикосновения, и заиграет и запестрит былыми, а может даже и новыми более яркими красками, которых раньше совсем и не было.</p>
@@ -133,6 +186,8 @@ body { --ink: #000000; --ash: #CCCCCC; --ghost-white: #FFFFFF; background-color:
       <p>Патологически аккуратная продавщица, (а давайте, уважаемый читатель, ее сделаем в этом повествовании именно такой, предельно скрупулезной принципиальной перфекционисткой, с полным набором внутренних, одной ей понятных строгих и нерушимых ограничений и правил) отработанным движением накалывает пробитые на кассе чеки на иглу так, что их края совпадают, и несмотря на то, что у чеков может быть разная длина, ширина стопки на игле не на один миллиметр не отличается от ширины кассовой ленты, причем и пустые полоски, которые остаются в кассе, в конце чековой ленты, она тоже накалывает, ведь не выбрасывать же их, ведь не сорить же там, где и так полно всякого сора, ведь по этим пустым полоскам можно легко определить, сколько рулонов ленты ушло за день, ведь когда-нибудь могут прийти школьники и забрать всю эту бумагу в макулатуру, а с пустыми полосками они соберут ее гораздо больше, но это случится только после того, когда по окончанию рабочего дня она спокойно и деловито проведет полный учет, сравнит сумму денег в кассе с цифрами в чеках и баланс сойдется до последней копеечки, впрочем, как это у нее всегда бывает.</p>
       <p>И вот неспешным движением сверху вниз, плавно и сосредоточенно, продавщица, преисполненная непостижимым для несведущих смыслом, аккуратно прокалывает пустую полоску, и сразу в этот момент скрипучий звук пронизывает все окружающее пространство, гулким эхом в пустоте откликаются бетонные стены и своды, а где-то в параллельной вселенной еще один день, в который вообще ничего не случилось, настолько ничего, что этот день забывается сразу после его окончания, присоединятся к веренице ушедших дней, к плотной стопке крепко сшитой иглой времени. И если у других дней есть хоть какой-нибудь шанс попасть в наши воспоминания, получить утраченную реальность, выбраться из-под тяжести забытья, обрести былые очертания, даже порой, бывает, усилить в каком-то роде, свою значительность, то у пустой полоски такого шанса нет; «нет» от слова «совсем», как любит повторять один из моих учителей. Наше время ничем не ограничено, но даже в бесконечности времени, данного нам, вероятность вернуть прежнюю жизнь такому дню настолько ничтожна и так стремится к нулю, что зачастую он оказывается утерянным окончательно.</p>
     </div>
+    </div>
+
     <div class="story__foot">
       <a class="btn btn--ghost" href="../../books/istoriya-svetlyh-vremen.html">← Ко всем рассказам</a>
       <a class="btn btn--ghost" href="https://proza.ru/2022/05/09/51" target="_blank" rel="noopener">Оригинал на Проза.ру ↗</a>
@@ -280,6 +335,43 @@ body { --ink: #000000; --ash: #CCCCCC; --ghost-white: #FFFFFF; background-color:
     window.addEventListener('resize', setActiveLink);
     setActiveLink();
   })();
+
+// Переключение темы текста на страницах историй
+// Переключение светлой/тёмной темы текста через лампочку
+(function() {
+  var lamp = document.querySelector('.lamp-toggle');
+  if (!lamp) return;
+  var prose = document.querySelector('.prose, .prose--poetry');
+  if (!prose) return;
+
+  var lampOffSrc = lamp.getAttribute('data-off');
+  var lampOnSrc  = lamp.getAttribute('data-on');
+  var storageKey = 'boroma_story_theme';
+  var saved = localStorage.getItem(storageKey);
+
+  function setTheme(isLight) {
+    if (isLight) {
+      prose.classList.add('light-mode');
+      if (lampOnSrc) lamp.querySelector('img').src = lampOnSrc;
+    } else {
+      prose.classList.remove('light-mode');
+      if (lampOffSrc) lamp.querySelector('img').src = lampOffSrc;
+    }
+  }
+
+  // Применить сохранённую тему
+  if (saved === 'light') {
+    setTheme(true);
+  } else {
+    setTheme(false);
+  }
+
+  lamp.addEventListener('click', function() {
+    var willBeLight = !prose.classList.contains('light-mode');
+    setTheme(willBeLight);
+    localStorage.setItem(storageKey, willBeLight ? 'light' : 'dark');
+  });
+})();
 </script>
 
 </body>
