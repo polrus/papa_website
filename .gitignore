@@ -10,3 +10,4 @@ pictures/*.mp4
 !pictures/story-*.mp4
 !pictures/text-*.mp4
 pictures/*.png
+!pictures/background.png
