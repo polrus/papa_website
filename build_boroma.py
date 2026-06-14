@@ -129,6 +129,9 @@ def render_story_page(story, slug, kind, emoji, is_single):
     lamp_off_url = "/pictures/boroma/lamp-off.png"
     lamp_on_url  = "/pictures/boroma/lamp-on.png"
 
+    bg_url = "../../pictures/boroma/background.png"
+    custom_css = BOROMA_CSS.replace("{{BACKGROUND_URL}}", bg_url)
+
     content = f'''<!DOCTYPE html>
 <html lang="ru">
 <head>
@@ -136,7 +139,7 @@ def render_story_page(story, slug, kind, emoji, is_single):
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>{html.escape(story['title'])} — Денис Борома</title>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&display=swap" rel="stylesheet" />
-  <style>{BOROMA_CSS}</style>
+  <style>{custom_css}</style>
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90' fill='#aaa'>📖</text></svg>" />
 </head>
 <body data-author="boroma">
@@ -223,6 +226,9 @@ def render_book_page(section_key, stories):
     else:
         hero_cover_html = f'<span class="book__emoji">{emoji}</span>'
     
+    bg_url = "../pictures/boroma/background.png"
+    custom_css = BOROMA_CSS.replace("{{BACKGROUND_URL}}", bg_url)
+
     content = f'''<!DOCTYPE html>
 <html lang="ru">
 <head>
@@ -230,7 +236,7 @@ def render_book_page(section_key, stories):
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>{html.escape(title)} — Денис Борома</title>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&display=swap" rel="stylesheet" />
-  <style>{BOROMA_CSS}</style>
+  <style>{custom_css}</style>
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90' fill='#aaa'>📖</text></svg>" />
 </head>
 <body data-author="boroma">
