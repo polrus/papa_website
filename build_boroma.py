@@ -270,7 +270,7 @@ def render_book_page(section_key, stories):
     <div class="section__head" style="text-align:center; margin-bottom:48px;">
       <span class="section__kicker">~ {kind_plural} ~</span>
       <h2 class="section__title">{len(stories)} {("произведение" if len(stories)==1 else "произведения" if len(stories)<5 else "произведений")}</h2>
-      <p class="section__lead" style="color:#777; max-width:560px; margin:12px auto 0;">Нажмите на произведение, чтобы прочитать его целиком.</p>
+      <p class="section__lead" style="color:#777; max-width:560px; margin:12px auto 0;">Нажмите на произведение, чтобы прочитать его.</p>
     </div>
     <div class="grid">
 {cards_html}
