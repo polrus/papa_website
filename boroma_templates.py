@@ -32,6 +32,7 @@ SECTION_INFO = {
 }
 
 BOROMA_CSS = """
+html { background-color: #000000; }
 body, body * { font-family: 'Cormorant Garamond', serif !important; }
 body {
   --ink: #000000;
