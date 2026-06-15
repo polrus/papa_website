@@ -337,11 +337,7 @@ def render_contact():
     return '''  <section class="section contact" id="contact">
     <div class="contact__card">
       <h2 class="section__title">Связаться с автором</h2>
-      <p class="contact__lead">По всем вопросам — через форму на Проза.ру или электронную почту.</p>
-      <div class="contact__links">
-        <a href="https://proza.ru/avtor/boroma" target="_blank" class="chip">Проза.ру</a>
-        <a href="#" class="chip" data-mail="boroma">Написать письмо</a>
-      </div>
+      <p class="contact__lead">невозможно...</p>
     </div>
   </section>'''
 

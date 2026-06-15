@@ -381,14 +381,14 @@
             .nav__links.is-open { opacity: 1; transform: none; pointer-events: auto; }
         }
 
-        /* ===== НОВЫЕ СТИЛИ ВИДЖЕТА ===== */
+        /* ===== СТИЛИ ВИДЖЕТА И СМЕТАНЫ ===== */
         .hero__widget {
             display: flex;
             flex-direction: row;
             gap: 28px;
-            align-items: stretch;
+            align-items: center;
             color: var(--ghost-white);
-            justify-content: center;   /* центрируем календарь и правую часть */
+            justify-content: center;
         }
 
         .calendar {
@@ -581,7 +581,55 @@
             100% { transform: translate(-50%, -50%) scale(3); opacity: 0; }
         }
 
+        /* ===== СТИЛИ СМЕТАНЫ ===== */
+        .hero__inner {
+            display: flex;
+            flex-direction: row;
+            align-items: flex-start;      /* убираем отступ сверху */
+            justify-content: space-between;
+            gap: 24px;
+        }
+        .hero__text {
+            flex: 1;
+            min-width: 0;
+        }
+        .smetana-wrapper {
+            position: relative;
+            width: 600px;
+            flex-shrink: 0;
+            text-align: center;
+            transform: translateX(-300px); /* сдвиг влево, как было задано */
+        }
+        .smetana-img {
+            display: block;
+            width: 200%;
+            height: auto;
+        }
+        .smetana-img-hidden {
+            display: none;
+        }
+        .smetana-hitbox {
+            position: absolute;
+            width: 66%;
+            height: 60%;
+            top: 22%;
+            left: 17%;
+            cursor: pointer;
+            background: transparent;
+            z-index: 2;
+            transform: translateX(300px);
+        }
+
         @media (max-width: 800px) {
+            .hero__inner {
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+            }
+            .smetana-wrapper {
+                margin-top: 24px;
+                width: 600px;
+            }
             .hero__widget {
                 flex-direction: column;
                 align-items: center;
@@ -597,7 +645,7 @@
           scroll-margin-top: 75px;
         }
         #calendar { 
-          scroll-margin-top: 75px;
+          scroll-margin-top: -25px;
         }
     </style>
 </head>
@@ -615,7 +663,7 @@
     </header>
 
     <section class="hero" id="hero">
-        <div class="hero__inner" style="max-width:1120px; margin:0 auto; padding:40px 22px; display:grid; grid-template-columns:1fr; gap:40px; align-items:center;">
+        <div class="hero__inner" style="max-width:1120px; margin:0 auto; padding:40px 22px;">
             <div class="hero__text">
                 <p class="hero__eyebrow">Рассказы · этюды · баллады</p>
                 <h1 class="hero__title">Денис Борома</h1>
@@ -623,6 +671,12 @@
                     <a href="#books" class="btn btn--primary">Читать книги</a>
                     <a href="https://proza.ru/avtor/boroma" target="_blank" rel="noopener" class="btn btn--ghost">Проза.ру →</a>
                 </div>
+            </div>
+            <!-- Первая сметана справа от заголовка -->
+            <div class="smetana-wrapper" id="smetana-top">
+                <img class="smetana-img smetana-img-visible" src="pictures/boroma/smetana_stay.gif" alt="Сметана" />
+                <img class="smetana-img smetana-img-hidden" src="" alt="Сметана" />
+                <div class="smetana-hitbox"></div>
             </div>
         </div>
     </section>
@@ -682,6 +736,12 @@
     <!-- ВИДЖЕТ ПОД КНИГАМИ, НАД КОНТАКТАМИ -->
     <div id="calendar" style="max-width: 1120px; margin: 50px auto; padding: 0 22px;">
         <div class="hero__widget">
+            <!-- Вторая сметана слева от календаря -->
+            <div class="smetana-wrapper" id="smetana-bottom">
+                <img class="smetana-img smetana-img-visible" src="pictures/boroma/smetana_stay.gif" alt="Сметана" />
+                <img class="smetana-img smetana-img-hidden" src="" alt="Сметана" />
+                <div class="smetana-hitbox"></div>
+            </div>
             <div class="calendar">
                 <div class="calendar__header">
                     <span class="calendar__month-year">июнь 2026</span>
@@ -696,7 +756,7 @@
             <div class="hero__widget-right">
                 <div class="clock">00:00:00</div>
                 <div class="reset-btn-container">
-                    <button class="reset-btn" aria-label="Перезапуск цикла">
+                    <button class="reset-btn" id="resetBtn" aria-label="Перезапуск цикла">
                         <svg class="progress-ring" viewBox="0 0 64 64" width="64" height="64">
                             <circle class="progress-ring__bg" cx="32" cy="32" r="28" fill="none" stroke-width="4"/>
                             <circle class="progress-ring__circle" cx="32" cy="32" r="28" fill="none" stroke-width="4" stroke-linecap="round" stroke-dasharray="175.93 175.93" stroke-dashoffset="175.93"/>
@@ -713,11 +773,7 @@
   <section class="section contact" id="contact">
     <div class="contact__card">
       <h2 class="section__title">Связаться с автором</h2>
-      <p class="contact__lead">По всем вопросам — через форму на Проза.ру или электронную почту.</p>
-      <div class="contact__links">
-        <a href="https://proza.ru/avtor/boroma" target="_blank" class="chip">Проза.ру</a>
-        <a href="#" class="chip" data-mail="boroma">Написать письмо</a>
-      </div>
+      <p class="contact__lead">невозможно...</p>
     </div>
   </section>
     <!-- CONTACT_END -->
@@ -865,17 +921,141 @@
         })();
     </script>
 
-    <!-- ===== СКРИПТ ВИДЖЕТА ПЕРЕЗАПУСКА ЦИКЛА ===== -->
+    <!-- ===== СКРИПТ ВИДЖЕТА ПЕРЕЗАПУСКА ЦИКЛА + ДВЕ СМЕТАНЫ ===== -->
     <script>
         (function() {
-            const widget = document.querySelector('.hero__widget');
-            if (!widget) return;
+            // ---------- изображения ----------
+            const SMETANA_STAY = 'pictures/boroma/smetana_stay.gif';
+            const SMETANA_FALL = 'pictures/boroma/smetana_fall.gif';
+            const SMETANA_FALLEN = 'pictures/boroma/smetana_fallen.gif';
+            const SMETANA_BUILD = 'pictures/boroma/smetana_build.gif';
+            const FALL_DURATION = 2820;
+            const BUILD_DURATION = 2820;
 
-            const monthYearEl = widget.querySelector('.calendar__month-year');
+            // ---------- DOM элементы ----------
+            const widget = document.querySelector('.hero__widget');
+            const resetBtn = document.getElementById('resetBtn');
+            const progressCircle = widget ? widget.querySelector('.progress-ring__circle') : null;
+            const monthYearEl = widget ? widget.querySelector('.calendar__month-year') : null;
             const calBody = document.getElementById('cal-body');
-            const clockEl = widget.querySelector('.clock');
-            const resetBtn = widget.querySelector('.reset-btn');
-            const progressCircle = widget.querySelector('.progress-ring__circle');
+            const clockEl = widget ? widget.querySelector('.clock') : null;
+
+            const smetanaWrappers = document.querySelectorAll('.smetana-wrapper');
+            const timersMap = new Map(); // wrapper -> { fallTimer, buildStartTime, resolveTimer }
+
+            function setSmetanaImage(wrapper, src, state, forceReload = false) {
+                const visibleImg = wrapper.querySelector('.smetana-img-visible');
+                const hiddenImg = wrapper.querySelector('.smetana-img-hidden');
+                if (!visibleImg || !hiddenImg) return;
+
+                let url = src;
+                if (forceReload) {
+                    url = src + (src.indexOf('?') === -1 ? '?' : '&') + '_r=' + Date.now() + Math.random();
+                }
+
+                hiddenImg.src = url;
+                hiddenImg.onload = function() {
+                    visibleImg.classList.remove('smetana-img-visible');
+                    visibleImg.classList.add('smetana-img-hidden');
+                    visibleImg.style.display = 'none';
+                    hiddenImg.classList.remove('smetana-img-hidden');
+                    hiddenImg.classList.add('smetana-img-visible');
+                    hiddenImg.style.display = '';
+                    wrapper.dataset.state = state;
+                    hiddenImg.onload = null;
+                };
+                if (hiddenImg.complete) {
+                    hiddenImg.onload();
+                }
+            }
+
+            function clearAllTimers(wrapper) {
+                const timers = timersMap.get(wrapper);
+                if (!timers) return;
+                if (timers.fallTimer) { clearTimeout(timers.fallTimer); timers.fallTimer = null; }
+                if (timers.resolveTimer) { clearTimeout(timers.resolveTimer); timers.resolveTimer = null; }
+                timers.buildStartTime = null;
+            }
+
+            function initTimers(wrapper) {
+                if (!timersMap.has(wrapper)) {
+                    timersMap.set(wrapper, { fallTimer: null, buildStartTime: null, resolveTimer: null });
+                }
+            }
+
+            // клик по хитбоксу – только из stay
+            function onSmetanaClick(e) {
+                const wrapper = e.currentTarget.closest('.smetana-wrapper');
+                if (!wrapper) return;
+                const currentState = wrapper.dataset.state || 'stay';
+                if (currentState !== 'stay') return;
+
+                initTimers(wrapper);
+                clearAllTimers(wrapper);
+                setSmetanaImage(wrapper, SMETANA_FALL, 'fall');
+                const timers = timersMap.get(wrapper);
+                timers.fallTimer = setTimeout(() => {
+                    setSmetanaImage(wrapper, SMETANA_FALLEN, 'fallen');
+                    timers.fallTimer = null;
+                }, FALL_DURATION);
+            }
+
+            document.querySelectorAll('.smetana-hitbox').forEach(hitbox => {
+                hitbox.addEventListener('click', onSmetanaClick);
+            });
+
+            smetanaWrappers.forEach(wrapper => {
+                wrapper.dataset.state = 'stay';
+                initTimers(wrapper);
+            });
+
+            // ---------- Управление build-анимацией при удержании resetBtn ----------
+            function restartBuildForResettable() {
+                smetanaWrappers.forEach(wrapper => {
+                    const state = wrapper.dataset.state || 'stay';
+                    if (state !== 'fallen' && state !== 'build' && state !== 'fall') return;
+                    initTimers(wrapper);
+                    clearAllTimers(wrapper);
+                    setSmetanaImage(wrapper, SMETANA_BUILD, 'build', true);
+                    const timers = timersMap.get(wrapper);
+                    timers.buildStartTime = performance.now();
+                });
+            }
+
+            function resolveBuilds(target) {
+                // target: 'stay' или 'fallen'
+                smetanaWrappers.forEach(wrapper => {
+                    if (wrapper.dataset.state !== 'build') return;
+                    const timers = timersMap.get(wrapper);
+                    if (!timers || timers.buildStartTime === null) return;
+
+                    const elapsed = performance.now() - timers.buildStartTime;
+                    const remaining = Math.max(0, BUILD_DURATION - elapsed);
+
+                    if (target === 'fallen') {
+                        // прерывание: немедленно fallen
+                        if (timers.resolveTimer) clearTimeout(timers.resolveTimer);
+                        setSmetanaImage(wrapper, SMETANA_FALLEN, 'fallen');
+                        timers.buildStartTime = null;
+                    } else if (target === 'stay') {
+                        // полное удержание: дождаться окончания build, затем stay
+                        if (remaining > 0) {
+                            if (timers.resolveTimer) clearTimeout(timers.resolveTimer);
+                            timers.resolveTimer = setTimeout(() => {
+                                setSmetanaImage(wrapper, SMETANA_STAY, 'stay');
+                                timers.buildStartTime = null;
+                                timers.resolveTimer = null;
+                            }, remaining);
+                        } else {
+                            setSmetanaImage(wrapper, SMETANA_STAY, 'stay');
+                            timers.buildStartTime = null;
+                        }
+                    }
+                });
+            }
+
+            // ---------- Календарь и кнопка сброса ----------
+            if (!widget || !resetBtn || !progressCircle || !monthYearEl || !calBody || !clockEl) return;
 
             const HOLD_DURATION = 1500;
             const TARGET_DATE = new Date(2026, 5, 16, 0, 0, 0, 0);
@@ -896,7 +1076,7 @@
             const COLS = 7;
             let cellThresholds = [];
             let cellInitialValues = [];
-            let cellConverted = []; // отслеживание, была ли уже ячейка заменена на 16
+            let cellConverted = [];
 
             function buildCalendarBody() {
                 calBody.innerHTML = '';
@@ -920,16 +1100,11 @@
                 const now = Date.now();
                 if (isHolding && holdProgress >= 0) {
                     const progress = Math.min(holdProgress, 1);
-                    // Всегда уменьшаем время суток до 00:00:00 того же дня, что и holdStartDate
-                    const totalMsInDay = 24 * 60 * 60 * 1000;
                     const startMs = holdStartDate.getHours() * 3600000 +
                                     holdStartDate.getMinutes() * 60000 +
                                     holdStartDate.getSeconds() * 1000 +
                                     holdStartDate.getMilliseconds();
-                    // Оставшееся время от startMs до 00:00:00 (обратный отсчёт)
-                    const remainingMs = startMs * (1 - progress);
-                    const newTimeMs = startMs - (startMs * progress);
-                    // Устанавливаем время в holdStartDate (копию)
+                    const newTimeMs = startMs * (1 - progress);
                     const d = new Date(holdStartDate);
                     d.setHours(0, 0, 0, 0);
                     d.setMilliseconds(newTimeMs);
@@ -947,7 +1122,6 @@
 
             function updateCalendar(date, scrambleProgress = -1) {
                 if (scrambleProgress >= 0) {
-                    // Месяц и год не трогаем – оставляем как в начале удержания
                     const displayDate = new Date(holdStartDate);
                     const monthIndex = displayDate.getMonth();
                     const year = displayDate.getFullYear();
@@ -1089,7 +1263,7 @@
                 }
                 render();
 
-                // Вспышка на весь экран
+                // вспышка
                 const rect = resetBtn.getBoundingClientRect();
                 const flash = document.createElement('div');
                 flash.className = 'flash-overlay';
@@ -1109,6 +1283,9 @@
                 flash.addEventListener('transitionend', () => {
                     flash.remove();
                 });
+
+                // полное удержание -> цель stay (после завершения build)
+                resolveBuilds('stay');
             }
 
             function holdStep(timestamp) {
@@ -1137,12 +1314,16 @@
                 holdProgress = 0;
                 updateProgressRing(0);
                 prepareScramble();
+                // запускаем/перезапускаем build для всех fallen и build
+                restartBuildForResettable();
                 animationFrame = requestAnimationFrame(holdStep);
             }
 
             function onPointerUp(e) {
                 if (!isHolding) return;
                 if (holdProgress < 1) {
+                    // удержание прервано -> цель fallen (немедленно)
+                    resolveBuilds('fallen');
                     resetHold();
                 }
             }
