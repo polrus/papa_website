@@ -921,7 +921,7 @@
         })();
     </script>
 
-        <!-- ===== СКРИПТ ВИДЖЕТА ПЕРЕЗАПУСКА ЦИКЛА + ДВЕ СМЕТАНЫ ===== -->
+    <!-- ===== СКРИПТ ВИДЖЕТА ПЕРЕЗАПУСКА ЦИКЛА + ДВЕ СМЕТАНЫ ===== -->
     <script>
         (function() {
             // ---------- изображения ----------
@@ -1001,11 +1001,12 @@
 
                 initTimers(wrapper);
                 clearAllTimers(wrapper);
+                // Запускаем анимацию падения с перезагрузкой
                 setSmetanaImage(wrapper, SMETANA_FALL, 'fall', true, () => {
-                    // Таймер на завершение падения запускается строго от начала анимации
+                    // Таймер на завершение падения – конечное состояние без перезагрузки (из кеша)
                     const timers = timersMap.get(wrapper);
                     timers.fallTimer = setTimeout(() => {
-                        setSmetanaImage(wrapper, SMETANA_FALLEN, 'fallen', true);
+                        setSmetanaImage(wrapper, SMETANA_FALLEN, 'fallen', false);
                         timers.fallTimer = null;
                     }, FALL_DURATION);
                 });
@@ -1027,6 +1028,7 @@
                     if (state !== 'fallen' && state !== 'build' && state !== 'fall') return;
                     initTimers(wrapper);
                     clearAllTimers(wrapper);
+                    // Запускаем строительство с перезагрузкой
                     setSmetanaImage(wrapper, SMETANA_BUILD, 'build', true, () => {
                         const timers = timersMap.get(wrapper);
                         timers.buildStartTime = performance.now();
@@ -1045,18 +1047,21 @@
 
                     if (target === 'fallen') {
                         if (timers.resolveTimer) clearTimeout(timers.resolveTimer);
-                        setSmetanaImage(wrapper, SMETANA_FALLEN, 'fallen', true);
+                        // Переход в fallen без перезагрузки (из кеша)
+                        setSmetanaImage(wrapper, SMETANA_FALLEN, 'fallen', false);
                         timers.buildStartTime = null;
                     } else if (target === 'stay') {
                         if (remaining > 0) {
                             if (timers.resolveTimer) clearTimeout(timers.resolveTimer);
                             timers.resolveTimer = setTimeout(() => {
-                                setSmetanaImage(wrapper, SMETANA_STAY, 'stay', true);
+                                // Переход в stay без перезагрузки (из кеша)
+                                setSmetanaImage(wrapper, SMETANA_STAY, 'stay', false);
                                 timers.buildStartTime = null;
                                 timers.resolveTimer = null;
                             }, remaining);
                         } else {
-                            setSmetanaImage(wrapper, SMETANA_STAY, 'stay', true);
+                            // Сразу в stay без перезагрузки
+                            setSmetanaImage(wrapper, SMETANA_STAY, 'stay', false);
                             timers.buildStartTime = null;
                         }
                     }
