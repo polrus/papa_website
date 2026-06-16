@@ -932,6 +932,12 @@
             const FALL_DURATION = 2810;
             const BUILD_DURATION = 2810;
 
+            // ---------- Предзагрузка всех гифок ----------
+            [SMETANA_STAY, SMETANA_FALL, SMETANA_FALLEN, SMETANA_BUILD].forEach(src => {
+                const img = new Image();
+                img.src = src;
+            });
+
             // ---------- DOM элементы ----------
             const widget = document.querySelector('.hero__widget');
             const resetBtn = document.getElementById('resetBtn');
@@ -943,29 +949,43 @@
             const smetanaWrappers = document.querySelectorAll('.smetana-wrapper');
             const timersMap = new Map(); // wrapper -> { fallTimer, buildStartTime, resolveTimer }
 
-            function setSmetanaImage(wrapper, src, state, forceReload = false) {
+            function setSmetanaImage(wrapper, src, state, restart = false) {
                 const visibleImg = wrapper.querySelector('.smetana-img-visible');
                 const hiddenImg = wrapper.querySelector('.smetana-img-hidden');
                 if (!visibleImg || !hiddenImg) return;
 
-                let url = src;
-                if (forceReload) {
-                    url = src + (src.indexOf('?') === -1 ? '?' : '&') + '_r=' + Date.now() + Math.random();
-                }
-
-                hiddenImg.src = url;
-                hiddenImg.onload = function() {
-                    visibleImg.classList.remove('smetana-img-visible');
-                    visibleImg.classList.add('smetana-img-hidden');
-                    visibleImg.style.display = 'none';
-                    hiddenImg.classList.remove('smetana-img-hidden');
-                    hiddenImg.classList.add('smetana-img-visible');
-                    hiddenImg.style.display = '';
-                    wrapper.dataset.state = state;
-                    hiddenImg.onload = null;
-                };
-                if (hiddenImg.complete) {
-                    hiddenImg.onload();
+                if (restart) {
+                    // Принудительный перезапуск: сбрасываем src и сразу ставим новый
+                    hiddenImg.onload = null;  // убираем старый обработчик
+                    hiddenImg.src = '';
+                    // Даём браузеру время сбросить, затем загружаем заново
+                    setTimeout(() => {
+                        hiddenImg.src = src;
+                        hiddenImg.onload = function() {
+                            visibleImg.classList.remove('smetana-img-visible');
+                            visibleImg.classList.add('smetana-img-hidden');
+                            visibleImg.style.display = 'none';
+                            hiddenImg.classList.remove('smetana-img-hidden');
+                            hiddenImg.classList.add('smetana-img-visible');
+                            hiddenImg.style.display = '';
+                            wrapper.dataset.state = state;
+                            hiddenImg.onload = null;
+                        };
+                        if (hiddenImg.complete) hiddenImg.onload();
+                    }, 0);
+                } else {
+                    hiddenImg.src = src;
+                    hiddenImg.onload = function() {
+                        visibleImg.classList.remove('smetana-img-visible');
+                        visibleImg.classList.add('smetana-img-hidden');
+                        visibleImg.style.display = 'none';
+                        hiddenImg.classList.remove('smetana-img-hidden');
+                        hiddenImg.classList.add('smetana-img-visible');
+                        hiddenImg.style.display = '';
+                        wrapper.dataset.state = state;
+                        hiddenImg.onload = null;
+                    };
+                    if (hiddenImg.complete) hiddenImg.onload();
                 }
             }
 
@@ -992,10 +1012,10 @@
 
                 initTimers(wrapper);
                 clearAllTimers(wrapper);
-                setSmetanaImage(wrapper, SMETANA_FALL, 'fall', true);   // принудительно перезапускаем гифку
+                setSmetanaImage(wrapper, SMETANA_FALL, 'fall', true);   // перезапуск анимации падения
                 const timers = timersMap.get(wrapper);
                 timers.fallTimer = setTimeout(() => {
-                    setSmetanaImage(wrapper, SMETANA_FALLEN, 'fallen', true);   // и финальный кадр тоже с перезагрузкой
+                    setSmetanaImage(wrapper, SMETANA_FALLEN, 'fallen', true);   // конечный кадр с перезапуском
                     timers.fallTimer = null;
                 }, FALL_DURATION);
             }
