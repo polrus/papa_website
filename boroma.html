@@ -921,7 +921,7 @@
         })();
     </script>
 
-    <!-- ===== СКРИПТ ВИДЖЕТА ПЕРЕЗАПУСКА ЦИКЛА + ДВЕ СМЕТАНЫ ===== -->
+        <!-- ===== СКРИПТ ВИДЖЕТА ПЕРЕЗАПУСКА ЦИКЛА + ДВЕ СМЕТАНЫ ===== -->
     <script>
         (function() {
             // ---------- изображения ----------
@@ -929,8 +929,8 @@
             const SMETANA_FALL = 'pictures/boroma/smetana_fall.gif';
             const SMETANA_FALLEN = 'pictures/boroma/smetana_fallen.gif';
             const SMETANA_BUILD = 'pictures/boroma/smetana_build.gif';
-            const FALL_DURATION = 2810;
-            const BUILD_DURATION = 2810;
+            const FALL_DURATION = 2750;
+            const BUILD_DURATION = 2750;
 
             // ---------- Предзагрузка всех гифок ----------
             [SMETANA_STAY, SMETANA_FALL, SMETANA_FALLEN, SMETANA_BUILD].forEach(src => {
@@ -949,7 +949,7 @@
             const smetanaWrappers = document.querySelectorAll('.smetana-wrapper');
             const timersMap = new Map(); // wrapper -> { fallTimer, buildStartTime, resolveTimer }
 
-            function setSmetanaImage(wrapper, src, state, forceReload = false) {
+            function setSmetanaImage(wrapper, src, state, forceReload = false, onAnimationStart = null) {
                 const visibleImg = wrapper.querySelector('.smetana-img-visible');
                 const hiddenImg = wrapper.querySelector('.smetana-img-hidden');
                 if (!visibleImg || !hiddenImg) return;
@@ -969,6 +969,9 @@
                     hiddenImg.style.display = '';
                     wrapper.dataset.state = state;
                     hiddenImg.onload = null;
+
+                    // Анимация гарантированно началась – вызываем коллбэк
+                    if (onAnimationStart) onAnimationStart();
                 };
                 if (hiddenImg.complete) {
                     hiddenImg.onload();
@@ -998,12 +1001,14 @@
 
                 initTimers(wrapper);
                 clearAllTimers(wrapper);
-                setSmetanaImage(wrapper, SMETANA_FALL, 'fall', true);   // принудительно перезапускаем гифку
-                const timers = timersMap.get(wrapper);
-                timers.fallTimer = setTimeout(() => {
-                    setSmetanaImage(wrapper, SMETANA_FALLEN, 'fallen', true);   // конечный кадр с перезапуском
-                    timers.fallTimer = null;
-                }, FALL_DURATION);
+                setSmetanaImage(wrapper, SMETANA_FALL, 'fall', true, () => {
+                    // Таймер на завершение падения запускается строго от начала анимации
+                    const timers = timersMap.get(wrapper);
+                    timers.fallTimer = setTimeout(() => {
+                        setSmetanaImage(wrapper, SMETANA_FALLEN, 'fallen', true);
+                        timers.fallTimer = null;
+                    }, FALL_DURATION);
+                });
             }
 
             document.querySelectorAll('.smetana-hitbox').forEach(hitbox => {
@@ -1022,9 +1027,10 @@
                     if (state !== 'fallen' && state !== 'build' && state !== 'fall') return;
                     initTimers(wrapper);
                     clearAllTimers(wrapper);
-                    setSmetanaImage(wrapper, SMETANA_BUILD, 'build', true);
-                    const timers = timersMap.get(wrapper);
-                    timers.buildStartTime = performance.now();
+                    setSmetanaImage(wrapper, SMETANA_BUILD, 'build', true, () => {
+                        const timers = timersMap.get(wrapper);
+                        timers.buildStartTime = performance.now();
+                    });
                 });
             }
 
@@ -1039,13 +1045,13 @@
 
                     if (target === 'fallen') {
                         if (timers.resolveTimer) clearTimeout(timers.resolveTimer);
-                        setSmetanaImage(wrapper, SMETANA_FALLEN, 'fallen', true);   // перезапуск
+                        setSmetanaImage(wrapper, SMETANA_FALLEN, 'fallen', true);
                         timers.buildStartTime = null;
                     } else if (target === 'stay') {
                         if (remaining > 0) {
                             if (timers.resolveTimer) clearTimeout(timers.resolveTimer);
                             timers.resolveTimer = setTimeout(() => {
-                                setSmetanaImage(wrapper, SMETANA_STAY, 'stay', true);   // перезапуск
+                                setSmetanaImage(wrapper, SMETANA_STAY, 'stay', true);
                                 timers.buildStartTime = null;
                                 timers.resolveTimer = null;
                             }, remaining);
